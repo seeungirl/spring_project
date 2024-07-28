@@ -4,10 +4,13 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
+
+import com.mysql.cj.xdevapi.JsonArray;
+import com.mysql.cj.xdevapi.JsonParser;
 
 @Controller
 public class web_controller {
@@ -80,24 +87,66 @@ public class web_controller {
 		this.pw = res.getWriter();
 		JSONArray ja = new JSONArray(arr);
 		JSONArray ja2 = (JSONArray)ja.get(0);
-		System.out.println(ja2.get(0));
+		
+		JSONObject rs_0 = new JSONObject();
+//		rs_0.add(ja2);
+		System.out.println((JSONArray)ja.get(0));
 		
 		
-		this.pw.write("ok");
+//		this.pw.print(rs_0);
 		
 		return null;
 	}
 	
+	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
-	@GetMapping("/ajaxok5.do")
-	public String ajaxok5(@RequestParam String arr,HttpServletResponse res) throws Exception{
+	@PostMapping(value="/ajaxok5.do", produces="application/json; charset=UTF-8")
+	public String ajaxok5(
+			@RequestBody String basket,
+			HttpServletResponse res,
+			HttpServletRequest req
+			) throws Exception{
+		req.setCharacterEncoding("utf-8");
+		res.setContentType("text/html;charshet=utf-8");
 		this.pw = res.getWriter();
-		JSONArray ja = new JSONArray(arr);
-		JSONArray ja2 = (JSONArray)ja.get(0);
-		System.out.println(ja2.get(0));
+		JSONArray ja = new JSONArray(basket);
+//		JSONArray ja2 = (JSONArray)ja.get(0);
+//		System.out.println(ja2.get(0));
+		
+		JSONObject jo2 = (JSONObject)ja.get(0);
+
+		System.out.println(jo2);
+		this.pw.print(jo2);
 		
 		
-		this.pw.write("ok");
+//		this.pw.write("ok");
+		
+		this.pw.close();
+		
+		return null;
+	}
+	
+	@PostMapping("/loginok.do")
+	public String loginok(String mid,HttpSession session) {
+//		HttpSession session = req.getSession();
+//		session.setAttribute("mid", mid);
+//		//일반 쇼핑몰 기준 페이지 이동 없을 때 유지시간 30분 지정 
+//		//-> 해당 부분이 없으면 페이지 몇번 이동하다보면 계속 로그아웃 발생해서 에러 발생할 수 있음
+//		session.setMaxInactiveInterval(1800); //1800초 : 30분
+//		
+//		System.out.println(mid);
+		
+		session.setAttribute("mid", mid);
+		session.setMaxInactiveInterval(1800);
+		
+		System.out.println(mid);
+		
+		return null;
+	}
+	
+	@GetMapping("/restapi.do")
+	public String restapi(@SessionAttribute(name="mid", required = false) String mid ) throws Exception {
+		System.out.println(mid); //등록되어있는 세션값 찍힘
 		
 		return null;
 	}

@@ -7,6 +7,18 @@
 <title>Session 연습</title>
 </head>
 <body>
-아이디 : <input type="text" name="mid"> 
+<form id="frm">
+	아이디 : <input type="text" name="mid"> 
+	<input type="button" value="전송" onclick="post_data()">
+</form>
 </body>
+
+<script type="text/javascript">
+	function post_data(){
+		frm.action = "./loginok.do";
+		frm.method="post";
+		frm.submit();
+	}
+</script>
+
 </html>
