@@ -99,7 +99,7 @@ $(function(){
 			{"seq":10 ,"product":"에어프라이어" , "price":"97000"},
 		];
 		$.ajax({
-			url:"./ajaxok3.do",
+			url:"./ajaxok5.do",
 			type:"get",
 			cache:false,
 			dataType: "json",

@@ -90,9 +90,9 @@ public class web_controller {
 	
 	@CrossOrigin(origins = "*", allowedHeaders = "*")
 	@GetMapping("/ajaxok5.do")
-	public String ajaxok5(@RequestParam String arr,HttpServletResponse res) throws Exception{
+	public String ajaxok5(@RequestParam String basket,HttpServletResponse res) throws Exception{
 		this.pw = res.getWriter();
-		JSONArray ja = new JSONArray(arr);
+		JSONArray ja = new JSONArray();
 		JSONArray ja2 = (JSONArray)ja.get(0);
 		System.out.println(ja2.get(0));
 		
