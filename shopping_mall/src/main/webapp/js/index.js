@@ -60,7 +60,7 @@ $(function(){
 			type:"post",
 			cache:false,
 			dataType: "text",
-			contentType:"application/json",
+			contentType:"application/json; charset:UTF-8",
 			data:JSON.stringify(arr),
 			success:function($result){
 				console.log($result);
@@ -94,17 +94,21 @@ $(function(){
 	
 		$("#btn5").click(function(){
 		var basket = [
-			{"seq":1 ,"product":"냉장고" , "price":"195000"},
-			{"seq":2 ,"product":"세탁기" , "price":"287000"},
-			{"seq":10 ,"product":"에어프라이어" , "price":"97000"},
+			{"seq":"1" ,"product":"냉장고" , "price":"195000"},
+			{"seq":"2" ,"product":"세탁기" , "price":"287000"},
+			{"seq":"10" ,"product":"에어프라이어" , "price":"97000"},
 		];
 		$.ajax({
 			url:"./ajaxok5.do",
 			type:"get",
+			type:"post",
 			cache:false,
 			dataType: "json",
-			contentType:"application/json",
+			contentType:"application/json; charset:UTF-8",
 			data:JSON.stringify(basket),
+//			data:{
+//				"all_data":basket.join(",")
+//			},
 			success:function($result){
 				console.log($result);
 			},
