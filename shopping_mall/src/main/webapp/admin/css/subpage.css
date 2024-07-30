@@ -1,0 +1,95 @@
+@charset "utf-8";
+.subpage_view { 
+    width: inherit;
+    height: auto;
+    margin-bottom: 50px;
+}
+.subpage_view > .info_form, .subpage_view > .info_form2 {
+    width: inherit;
+    height: 40px;
+    border-top:1px solid rgb(81, 61, 61);
+}
+.subpage_view > .info_form > li, .subpage_view > .info_form2 > li{
+    float: left;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+}
+.subpage_view > .info_form > li:nth-of-type(1), .subpage_view > .info_form2 > li:nth-of-type(1){
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    text-indent: 5px;
+}
+/* 환경설정 입력 파트 */
+.subpage_view > .info_form > li > input[type="text"], .subpage_view > .info_form2 > li > input[type="text"]{
+    height: 30px;
+    border:1px solid rgb(81, 61, 61);
+    border-radius: 2px;
+    text-indent: 5px;
+}
+.info_form > li:nth-of-type(2){
+    width: 950px;
+    padding-top: 5px;
+}
+.info_form2 > li:nth-of-type(2){
+    width: 400px;
+    padding-top: 5px;
+}
+.info_form2 > li:nth-of-type(3){
+    width: 150px;
+    height: 40px;
+    line-height: 40px;
+    text-indent: 5px;
+}
+.info_form2 > li:nth-of-type(4){
+    width: 400px;
+    padding-top: 5px;
+}
+.in_form0 { 
+    width: 200px;
+}
+.in_form1 { 
+    width: 250px;
+}
+.in_form2 { 
+    width: 300px;
+}
+.in_form3 {
+    width: 80px;
+}
+
+.checkcss { 
+    height: 40px;
+    line-height: 30px;
+}
+.checkcss > em {
+    width: 100px;
+    display: block;
+    float: left;
+}
+.ckclass { 
+    vertical-align: -2px;
+    margin-right: 2px;
+}
+.btn_div { 
+    width: inherit;
+    height: 60px;
+    margin-bottom: 50px;
+    line-height: 60px;
+    text-align: center;
+}
+.sub_btn1 { 
+    width: 120px;
+    height: 40px;
+    background-color: rgb(81, 61, 61);
+    color: white; 
+    margin-right: 10px;
+    cursor: pointer;
+}
+.sub_btn2 { 
+    width: 120px;
+    height: 40px;
+    background-color: rgb(27, 25, 25);
+    color: white; 
+    cursor: pointer;
+}

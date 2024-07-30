@@ -23,6 +23,7 @@
 			<param-value>
 			/WEB-INF/spring/appServlet/servlet-context.xml
 			/WEB-INF/spring/appServlet/dbconfig.xml
+			/WEB-INF/spring/appServlet/dbconfig2.xml
 			</param-value>
 		</init-param>
 		<load-on-startup>1</load-on-startup>
@@ -35,20 +36,15 @@
 	
 	<!-- 한글깨짐 방지 -->
 	<filter>
-		<filter-name>encoding</filter-name>
-		<filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
-		<int-param>
+		<filter-name>setCharacterEncodingFilter</filter-name>
+		<filter-class>org.apache.catalina.filters.SetCharacterEncodingFilter</filter-class>
+		<init-param>
 			<param-name>encoding</param-name>
-			<param-value>UTF-8</param-value>
-		</int-param>
-		<int-param>
-			<param-name>forceEncoding</param-name>
-			<param-value>true</param-value>
-		</int-param>
+			<param-value>utf-8</param-value>
+		</init-param>
 	</filter>
-	
 	<filter-mapping>
-		<filter-name>encoding</filter-name>
+		<filter-name>setCharacterEncodingFilter</filter-name>
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 

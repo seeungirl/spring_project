@@ -2,4 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="Shopping_mall">
 
+	<!-- resulType: config.xml의 해당 dao alias값 -->
+	<select id="search" parameterType="Map" resultType="userdao">
+		select * from user
+		<choose>
+			<when test="part==1"> <!-- 아이디 찾기 -->
+				where uname=#{uname} and uemail=#{uemail}
+			</when>
+			<when test="part==2"> <!-- 패스워드 찾기 -->
+				where uid=#{uid} and uname=#{uname}
+			</when>
+			<otherwise>
+				order by uidx desc;
+			</otherwise>
+		</choose>
+	</select>
 </mapper>

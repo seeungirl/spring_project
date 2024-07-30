@@ -7,5 +7,5 @@ import lombok.Setter;
 @Setter
 public class user_dao {
 	int uidx;
-	String uid,upass,uname,ujoin;
+	String uid,upass,uname,ujoin,umail;
 }

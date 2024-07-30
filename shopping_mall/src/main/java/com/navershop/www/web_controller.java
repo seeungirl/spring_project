@@ -13,6 +13,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.springframework.stereotype.Controller;
+import org.springframework.stereotype.Repository;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -32,8 +33,37 @@ public class web_controller {
 	@Resource(name="md5pass")
 	private md5_pass md;
 	
+	
+	@Resource(name="userselect")
+	private user_select us;
+	
 	@PostMapping("/idsearch.do")
-	public String idserach() { //아이디 찾기
+	public String idserach(
+			String[] uname,String uemail,
+			HttpServletResponse res
+			) throws Exception{ //아이디 찾기
+		res.setContentType("text/html;charset=utf-8");
+		this.pw = res.getWriter();
+		try {
+			if(uname[0] == null || uemail == null) {
+				this.pw.print("<script>"
+						+ "alert('올바른 접근 방식이 아닙니다.');"
+						+ "history.go(-1);"
+						+ "</script>");
+			}else {
+				ArrayList<Object> result = new user_select().search_id(uname[0],uemail);
+				System.out.println(result);
+			}
+			
+		}catch(Exception e) {
+			System.out.println(e);
+			this.pw.print("<script>"
+					+ "alert('Database 문제로 인하여 해당 정보가 확인되지 않습니다.');"
+					+ "history.go(-1);"
+					+ "</script>");
+		}finally {
+			this.pw.close();
+		}
 		
 		return null;
 	}

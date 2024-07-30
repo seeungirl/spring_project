@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="shop">
+	<insert id="admlist_insert" parameterType="Map" >
+	    insert into admin_list (adm_no,adm_id,adm_pass,adm_name,adm_email,adm_phone,adm_position1,adm_position2,adm_aprove,adm_date)
+	    values ('0',#{adm_id},#{adm_pass},#{adm_name},#{adm_email},#{adm_phone},#{adm_position1},#{adm_position2},#{adm_aprove},now())
+	</insert>
+	
+	<select id="admlist_selectid" parameterType="Map" resultType="int">
+    	select count(*) as ctn from admin_list where adm_id=#{adm_id} order by adm_no desc;
+	</select>
+	
+	<select id="admlist_login" parameterType="Map" resultType="adminlistdao">
+    	select adm_id,adm_aprove from admin_list where adm_id=#{adm_id} and adm_pass=#{adm_pass}
+	</select>
+	
+	<select id="admlist_selectall" resultType="adminlistdao"> 
+		select * from admin_list order by adm_no desc
+	</select>
+
+	<update id="admlist_apv_update" parameterType="Map"> 
+	    update admin_list set 
+	    adm_aprove=#{adm_aprove} where adm_no=#{adm_no}
+	</update>
+
+</mapper>
