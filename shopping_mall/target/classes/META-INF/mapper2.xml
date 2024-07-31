@@ -22,5 +22,40 @@
 	    update admin_list set 
 	    adm_aprove=#{adm_aprove} where adm_no=#{adm_no}
 	</update>
+	
+	
+	<insert id="mjdao_insert" parameterType="Map" >
+	    insert into mall_join_setting 
+	    (mjs_no,adm_id,ms_mallname,ms_admemail,ms_pointuse,ms_joinpoint,ms_joinlevel) 
+	    values ('0',#{adm_id},#{ms_mallname},#{ms_admemail},#{ms_pointuse},#{ms_joinpoint},#{ms_joinlevel})
+	</insert>
+	
+	<insert id="mbdao_insert" parameterType="Map" >
+	    insert into mall_basic_setting 
+	    (mbs_no,adm_id,ms_cpname,ms_cpnum,ms_cpceoname,ms_cpceophone,ms_reportnum,ms_addcpnum,ms_cppost,ms_cpaddress,ms_ifofficername,ms_ifofficeremail)  
+	    values ('0',#{adm_id},#{ms_cpname},#{ms_cpnum},#{ms_cpceoname},#{ms_cpceophone},#{ms_reportnum},#{ms_addcpnum},#{ms_cppost},#{ms_cpaddress},#{ms_ifofficername},#{ms_ifofficeremail})
+	</insert>
+
+	<insert id="mpdao_insert" parameterType="Map" >
+	    insert into mall_pay_setting  
+	    (mps_no,adm_id,ms_pay_bank,ms_pay_banknum,ms_pay_credituse,ms_pay_phoneuse,ms_pay_bookgiftcarduse,ms_pay_minpoint,ms_pay_maxpoint,ms_pay_cashreceipt,ms_pay_deliveryname,ms_pay_deliveryprice,ms_pay_deliverydate) 
+	    values ('0',#{adm_id},#{ms_pay_bank},#{ms_pay_banknum},#{ms_pay_credituse},#{ms_pay_phoneuse},#{ms_pay_bookgiftcarduse},#{ms_pay_minpoint},#{ms_pay_maxpoint},#{ms_pay_cashreceipt},#{ms_pay_deliveryname},#{ms_pay_deliveryprice},#{ms_pay_deliverydate})
+	</insert>
+	
+	<delete id="mallset_alldelete">
+	 	delete from mall_join_setting where adm_id=#{adm_id} order by mjs_no desc;
+	 	delete from mall_basic_setting where adm_id=#{adm_id} order by mbs_no desc;
+	 	delete from mall_pay_setting where adm_id=#{adm_id} order by mps_no desc;
+	</delete>
+	
+	<select id="mjset_selectone" parameterType="Map" resultType="mjsdao">
+    	select * from mall_join_setting where adm_id=#{adm_id}
+	</select>
+	<select id="mbset_selectone" parameterType="Map" resultType="mbsdao">
+    	select * from mall_basic_setting where adm_id=#{adm_id}
+	</select>
+	<select id="mpset_selectone" parameterType="Map" resultType="mpsdao">
+    	select * from mall_pay_setting where adm_id=#{adm_id}
+	</select>
 
 </mapper>

@@ -15,6 +15,7 @@
     height: 40px;
     line-height: 40px;
     float: left;
+    cursor : pointer;
 }
 .headercss > .header_div > p > img {
     margin-top: 5px;
@@ -56,12 +57,12 @@
     padding-top: 20px;
     position: relative;
 }
-.maincss > section:nth-of-type(1) {
+.maincss section:nth-of-type(1) {
     width: 1100px;
     height: auto;
     margin: 0 auto;
 }
-.maincss > section:nth-of-type(1) > p {
+.maincss section:nth-of-type(1) > p {
     width: 250px;
     font-size: 15px;
     font-weight: bolder;
@@ -70,7 +71,7 @@
     position: relative;
     text-indent: 30px;
 }
-.maincss > section:nth-of-type(1) > p::before{
+.maincss section:nth-of-type(1) > p::before{
     content: "■";
     color: red;
     position: absolute;

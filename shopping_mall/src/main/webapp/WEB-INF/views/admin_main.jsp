@@ -20,6 +20,6 @@
 </head>
 
 <body>
-<%@ include file="./layout/admin_header.jsp" %>
+<%@ include file="/admin/layout/admin_header.jsp" %>
 </body>
 </html>

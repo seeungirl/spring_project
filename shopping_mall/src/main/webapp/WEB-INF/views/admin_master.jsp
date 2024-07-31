@@ -19,7 +19,7 @@
     <script src="./js/admin.js"></script>
 </head>
 <body id="admin_master">
-	<%@ include file="./layout/admin_header.jsp" %>​
+	<%@ include file="/admin/layout/admin_header.jsp" %>​
 
     <header class="admin_title_add">
         <p><img src="./img/logo.png" class="logo_sm"> ADMINISTRATOR ADD</p>

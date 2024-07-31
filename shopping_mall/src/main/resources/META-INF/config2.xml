@@ -3,5 +3,8 @@
 <configuration>
 	<typeAliases>
 		<typeAlias alias="adminlistdao" type="shopping_admin.adminlist_dao"/>
+		<typeAlias alias="mjsdao" type="shopping_admin.mj_set_dao"/>
+		<typeAlias alias="mbsdao" type="shopping_admin.mb_set_dao"/>
+		<typeAlias alias="mpsdao" type="shopping_admin.mp_set_dao"/>
 	</typeAliases>
 </configuration>
