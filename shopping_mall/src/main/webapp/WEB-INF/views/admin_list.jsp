@@ -10,6 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 등록 페이지</title>
     <link rel="stylesheet" type="text/css" href="./css/basic.css">
+    <link rel="stylesheet" type="text/css" href="./css/category.css">
     <link rel="stylesheet" type="text/css" href="./css/login.css?v=1">
     <link rel="stylesheet" type="text/css" href="./css/main.css?v=1">
     <link rel="icon" href="./img/logo.png" sizes="128x128">
@@ -17,6 +18,7 @@
     <link rel="icon" href="./img/logo.png" sizes="32x32">
     <link rel="icon" href="./img/logo.png" sizes="16x16">
     
+    <script src="./js/common.js"></script>
     <script src="./js/admin.js"></script>
 </head>
 <body>
@@ -66,14 +68,13 @@
     		</ol>
 		</cr:if>
    </cr:forEach>
+   <div class="subpage_view4">
+	    <span style="float: right;">
+	    	<input type="button" value="신규 관리자 등록" title="신규 관리자 등록" class="p_button p_button_color2" onclick="admin_master()">
+	    </span>
+	</div>
 </section>
-<section></section>
-<section></section>
 </main>
-<footer class="main_copyright">
-    <div>
-        Copyright ⓒ 2024 shopbag All rights reserved.
-    </div>
-</footer>
+<%@ include file="/admin/layout/footer.jsp" %>
 </body>
 </html>

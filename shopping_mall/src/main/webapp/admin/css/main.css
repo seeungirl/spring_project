@@ -237,3 +237,7 @@
     text-align: center;
     color: white;
 }
+
+
+/*---세은추가---*/
+input[type='text'][readonly] {background-color : #eee;}

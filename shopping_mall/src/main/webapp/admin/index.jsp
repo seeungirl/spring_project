@@ -8,12 +8,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 페이지</title>
     <link rel="stylesheet" type="text/css" href="./css/basic.css">
+    <link rel="stylesheet" type="text/css" href="./css/main.css">
     <link rel="stylesheet" type="text/css" href="./css/mainlogin.css?v=3">
     <link rel="icon" href="./img/logo.png" sizes="128x128">
     <link rel="icon" href="./img/logo.png" sizes="64x64">
     <link rel="icon" href="./img/logo.png" sizes="32x32">
     <link rel="icon" href="./img/logo.png" sizes="16x16">
     
+    <script src="./js/common.js"></script>
     <script src="./js/admin.js"></script>
 </head>
 <body class="bodycss">
@@ -44,10 +46,6 @@
 	        </div>
 	    </section>
     </form>
-    <footer class="admin_copy_login">
-        <div>
-            Copyright ⓒ 2024 shopbag All rights reserved.
-        </div>
-    </footer>
+<%@ include file="/admin/layout/footer.jsp" %>
 </body>
 </html>

@@ -16,10 +16,13 @@
     <link rel="icon" href="./img/logo.png" sizes="32x32">
     <link rel="icon" href="./img/logo.png" sizes="16x16">
     
+    <script src="./js/common.js"></script>
 	<script src="./js/admin.js"></script>
 </head>
 
 <body>
 <%@ include file="/admin/layout/admin_header.jsp" %>
+
+<%@ include file="/admin/layout/footer.jsp" %>
 </body>
 </html>

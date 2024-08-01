@@ -1,10 +1,4 @@
-function admin_master(){
-	location.href = "./admin_master.do";
-}
-
-function admin_main(){
-	location.href = "./admin_main.do";	
-}
+/*-- admin --*/
 
 function adminjoin_submit(){
 	if(join_frm.adm_id.value==""){
@@ -109,11 +103,6 @@ function change_aprove(no,apv){
 	}
 }
 
-function admin_logout(){
-	location.href = "./admin_logout.do";
-}
-
-
 //사이트 정보 저장 버튼
 function siteinfo_submit(e){
 	var required = $("#siteinfo").find("input[type='text']");
@@ -171,13 +160,6 @@ function siteinfo_submit(e){
 	return isValid;
 }
 
-
-//사이트 정보 취소 버튼
-function siteinfo_cancel(){
-	if(confirm("정말 취소하시겠습니까?")){
-		location.reload(true);
-	}
-}
 
 
 

@@ -16,6 +16,7 @@
     <link rel="icon" href="./img/logo.png" sizes="16x16">
     
     <script src="./js/jquery.js"></script>
+    <script src="./js/common.js"></script>
     <script src="./js/admin.js"></script>
 </head>
 <body id="admin_master">
@@ -83,10 +84,6 @@
 	        </div>
 	    </section>
     </form>
-    <footer class="admin_copy">
-        <div>
-            Copyright ⓒ 2024 shopbag All rights reserved.
-        </div>
-    </footer>
+<%@ include file="/admin/layout/footer.jsp" %>
 </body>
 </html>

@@ -21,6 +21,8 @@ public class adminlist_md {
 	@Resource(name="sqsha3")
 	private sq_sha3 s3;
 	
+	
+	/*----------join,login---------*/
 	//회원가입 insert
 	public int admlist_insert(adminlist_dao dao) {
 		Map<String, String> kc = new HashMap<String, String>();
@@ -79,6 +81,9 @@ public class adminlist_md {
 		return result;
 	}
 	
+	
+	/*----------site info---------*/
+	
 	public int admsiteinfo_insert_mj(mj_set_dao mjdao) {
 		int r1 = tm2.insert("shop.mjdao_insert",mjdao);
 		return r1;
@@ -117,26 +122,25 @@ public class adminlist_md {
 		return result;
 	}
 	
-	
-	
-	/*---- pw ----*/
-	PrintWriter pw = null;
-	public void golocation(HttpServletResponse res,String msg,String url) throws Exception {
-		this.pw=res.getWriter();
-		this.pw.write("<script>"
-				+ "alert('"+ msg +"');"
-				+ "location.href='"+ url +"';"
-				+ "</script>");
-		this.pw.close();
+	public int admsiteinfo_select_jbp(String adm_id) {
+		int result = tm2.selectOne("shop.mjset_selectcount",adm_id);
+		
+		return result;
 	}
 	
-	public void gohistory(HttpServletResponse res,String msg) throws Exception {
-		this.pw=res.getWriter();
-		this.pw.write("<script>"
-				+ "alert('"+ msg +"');"
-				+ "history.go(-1);"
-				+ "</script>");
-		this.pw.close();
+	public int setinfo_mj_update(mj_set_dao mjdao) {
+		int u1 = tm2.update("shop.setinfo_mj_update",mjdao);
+		return u1;
+	}
+	
+	public int setinfo_mb_update(mb_set_dao mbdao) {
+		int u2 = tm2.update("shop.setinfo_mb_update",mbdao);
+		return u2;
+	}
+	
+	public int setinfo_mp_update(mp_set_dao mpdao) {
+		int u3 = tm2.update("shop.setinfo_mp_update",mpdao);
+		return u3;
 	}
 
 }

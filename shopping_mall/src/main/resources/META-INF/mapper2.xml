@@ -49,13 +49,50 @@
 	</delete>
 	
 	<select id="mjset_selectone" parameterType="Map" resultType="mjsdao">
-    	select * from mall_join_setting where adm_id=#{adm_id}
+    	select * from mall_join_setting where adm_id=#{adm_id} order by mjs_no desc
 	</select>
 	<select id="mbset_selectone" parameterType="Map" resultType="mbsdao">
-    	select * from mall_basic_setting where adm_id=#{adm_id}
+    	select * from mall_basic_setting where adm_id=#{adm_id} order by mbs_no desc;
 	</select>
 	<select id="mpset_selectone" parameterType="Map" resultType="mpsdao">
-    	select * from mall_pay_setting where adm_id=#{adm_id}
+    	select * from mall_pay_setting where adm_id=#{adm_id} order by mps_no desc;
 	</select>
+	
+	<select id="mjset_selectcount" parameterType="Map" resultType="int">
+    	select count(*) as ctn from mall_join_setting where adm_id=#{adm_id} order by mjs_no desc;
+	</select>
+	
+	<update id="setinfo_mj_update" parameterType="Object">
+	    update mall_join_setting set ms_mallname=#{ms_mallname},ms_admemail=#{ms_admemail},ms_pointuse=#{ms_pointuse},ms_joinpoint=#{ms_joinpoint},ms_joinlevel=#{ms_joinlevel} where adm_id=#{adm_id};
+	</update>
+	<update id="setinfo_mb_update" parameterType="Object">
+	    update mall_basic_setting set ms_cpname=#{ms_cpname},ms_cpnum=#{ms_cpnum},ms_cpceoname=#{ms_cpceoname},ms_cpceophone=#{ms_cpceophone},ms_reportnum=#{ms_reportnum},ms_addcpnum=#{ms_addcpnum},ms_cppost=#{ms_cppost},ms_cpaddress=#{ms_cpaddress},ms_ifofficername=#{ms_ifofficername},ms_ifofficeremail=#{ms_ifofficeremail} where adm_id=#{adm_id};
+	</update>
+	<update id="setinfo_mp_update" parameterType="Object">
+	    update mall_pay_setting set ms_pay_bank=#{ms_pay_bank},ms_pay_banknum=#{ms_pay_banknum},ms_pay_credituse=#{ms_pay_credituse},ms_pay_phoneuse=#{ms_pay_phoneuse},ms_pay_bookgiftcarduse=#{ms_pay_bookgiftcarduse},ms_pay_minpoint=#{ms_pay_minpoint},ms_pay_maxpoint=#{ms_pay_maxpoint},ms_pay_cashreceipt=#{ms_pay_cashreceipt},ms_pay_deliveryname=#{ms_pay_deliveryname},ms_pay_deliveryprice=#{ms_pay_deliveryprice},ms_pay_deliverydate=#{ms_pay_deliverydate} where adm_id=#{adm_id};
+    </update>
+    
+    
+    <!-- product -->
+   	<insert id="category_insert" parameterType="Map">
+	    insert into cate_list (c_no,adm_id,group_code,cate_code,cate_name,cate_use,cate_date) 
+	    values ('0',#{adm_id},#{group_code},#{cate_code},#{cate_name},#{cate_use},now())
+	</insert>
+	
+	<select id="category_selectall" resultType="catedao"> 
+		select * from cate_list where adm_id=#{adm_id} order by c_no desc
+	</select>
+	
+	<delete id="category_del">
+	    delete from cate_list where c_no=#{c_no} order by c_no desc;
+	</delete>
+	
+	<select id="category_selectone" parameterType="Map" resultType="catedao">
+   		select * from cate_list where c_no=#{c_no} order by c_no desc
+	</select>
+	
+	<update id="category_update" parameterType="Object"> 
+	    update cate_list set group_code=#{group_code},cate_code=#{cate_code},cate_name=#{cate_name},cate_use=#{cate_use} where c_no=#{c_no};
+	</update>
 
 </mapper>
