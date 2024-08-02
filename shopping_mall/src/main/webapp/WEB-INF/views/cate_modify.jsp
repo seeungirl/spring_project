@@ -30,8 +30,11 @@
 	    <div class="cate_insert">
 	        <ul>
 	            <li>분류코드</li>
-	            <li><input type="text" class="cate_input1" name="group_code" value='${result.group_code}' readonly ></li>
-	            <li>※ 분류코드는 대메뉴 코드와 소메뉴 코드를 합쳐서 자동 입력 됩니다.</li>
+	            <li><input type="text" class="cate_input1" name="group_code" value='${result.group_code}'></li>
+      	        <li>
+		            ※ 분류코드에 사용할 코드 번호를 입력하세요 최소 2자 이상의 숫자로 입력하셔야 합니다.
+		            <!-- ※ 분류코드는 대메뉴 코드와 소메뉴 코드를 합쳐서 자동 입력 됩니다. -->
+	            </li>
 	        </ul>
 	        <ul>
 	            <li>대메뉴 코드</li>

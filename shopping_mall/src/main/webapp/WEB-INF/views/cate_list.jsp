@@ -77,11 +77,16 @@
 	    <ul class="pageing">
 	        <li><img src="./ico/double_left.svg"></li>
 	        <li><img src="./ico/left.svg"></li>
-	        <li>1</li>
+	        <cr:forEach var="dt" begin="1" end="${totalpg}">
+	        	<li>
+	        		<a style="color : #333" href="./cate_list.do?page=${dt}">${dt}</a>
+	        	</li>
+	        </cr:forEach>
 	        <li><img src="./ico/right.svg"></li>
 	        <li><img src="./ico/double_right.svg"></li>
 	    </ul>
 	</div>
+	
 	<div class="subpage_view4">
 	    <input type="button" value="카테고리 삭제" title="카테고리 삭제" class="p_button" onclick="category_delete()">
 	    <span style="float: right;">
@@ -89,6 +94,7 @@
 	    <input type="button" value="카테고리 등록" title="카테고리 등록" class="p_button p_button_color2" onclick="go_catewrite()">
 	    </span>
 	</div>
+	
 	</section>
 </main>
 <%@ include file="/admin/layout/footer.jsp" %>

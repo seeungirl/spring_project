@@ -16,15 +16,18 @@ function go_catewrite(){
 
 function make_cate(val){
 	var catecode = cate_frm.cate_code.value;
-	if(catecode == ""){
+	if(cate_frm.group_code.value == ""){
+		alert("분류코드를 입력하세요.");
+	}else if(catecode == ""){
 		alert("대메뉴 코드를 입력하세요.");
 	}else if(cate_frm.cate_name.value == ""){
 		alert("대메뉴명을 입력하세요.");
-	}else{	
-		if(isNaN(catecode) == true){
+	}else{
+		if(isNaN(cate_frm.group_code.value) == true){
+			alert("분류코드는 숫자로만 입력해주세요");
+		}else if(isNaN(catecode) == true){
 			alert("대메뉴명은 숫자로만 입력해주세요");
 		}else{
-			cate_frm.group_code.value = catecode + "99";
 			if(val=='write'){
 				cate_frm.action="./catewrite_ok.do";							
 			}else{

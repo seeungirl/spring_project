@@ -34,7 +34,7 @@ public class prd_controller extends pw_md{
 	}
 	
 	@GetMapping("/admin/cate_list.do")
-	public String cate_list(HttpServletResponse res,HttpServletRequest req,Model m) throws Exception{
+	public String cate_list(String page,HttpServletResponse res,HttpServletRequest req,Model m) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
@@ -44,6 +44,27 @@ public class prd_controller extends pw_md{
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
 				List<cate_dao> result = pm.category_selectall(adm_id);
+				
+				float pageno = 3f; //한페이지당 5개씩 노출
+				int alldata= result.size();
+				int total_pg = (int)Math.ceil(alldata/pageno);   
+				
+				int pgno = 0; //page번호 핸들링위한 전역변수
+				
+				if(page == null){ //최초 접속 시
+					pgno = 0;
+				}else {
+					pgno = Integer.parseInt(page);
+				}
+//				else if(page=="1") {
+//					pgno = 1*3;
+//				}else{ //사용자가 페이지 번호를 클릭
+//					int pp = Integer.parseInt(page);
+//					pgno = (pp-1)*3;	
+//				}
+				
+				m.addAttribute("pgno",pgno);
+				m.addAttribute("totalpg",total_pg);
 				m.addAttribute("result",result);
 			}
 		}catch(Exception e) {
@@ -126,6 +147,8 @@ public class prd_controller extends pw_md{
 			@ModelAttribute("cate") cate_dao catedao
 		) throws Exception {
 		try {
+			res.setContentType("text/html; charset=UTF-8");
+			
 			this.session = req.getSession();
 			String adm_id = (String)this.session.getAttribute("adm_id");
 			
@@ -157,7 +180,7 @@ public class prd_controller extends pw_md{
 			}
 			
 		}catch(DataIntegrityViolationException e2) {
-			this.gohistory(res,"대메뉴 코드,대메뉴명은 중복 등록이 불가능합니다.");
+			this.gohistory(res,"해당 대메뉴 코드에 동일한 대메뉴 코드및 이름이 존재합니다.");
 		}catch(Exception e){
 			System.out.println(e);
 			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");

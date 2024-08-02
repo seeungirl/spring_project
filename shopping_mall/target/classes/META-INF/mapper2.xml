@@ -83,6 +83,10 @@
 		select * from cate_list where adm_id=#{adm_id} order by c_no desc
 	</select>
 	
+	<select id="category_selectall_ctn" parameterType="Map" resultType="int">
+   		select count(*) as ctn from cate_list where adm_id=#{adm_id} order by c_no desc;
+	</select>
+	
 	<delete id="category_del">
 	    delete from cate_list where c_no=#{c_no} order by c_no desc;
 	</delete>
