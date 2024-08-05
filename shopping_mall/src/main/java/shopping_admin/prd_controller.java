@@ -1,6 +1,10 @@
 package shopping_admin;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +17,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class prd_controller extends pw_md{
@@ -28,13 +33,34 @@ public class prd_controller extends pw_md{
 	}
 	
 	@GetMapping("/admin/product_write.do")
-	public String product_write() {
+	public String product_write(
+			Model m,HttpServletRequest req,HttpServletResponse res
+			) throws Exception{
+		res.setContentType("text/html; charset=UTF-8");
+		try {
+			this.session = req.getSession();
+			String adm_id = (String)this.session.getAttribute("adm_id");
+			if(adm_id==null) {
+				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
+			}else {
+				List<cate_dao> result = pm.category_selectall(adm_id);
+				m.addAttribute("catelist",result);	
+				m.addAttribute("adm_id",adm_id);
+			}
+			
+		}catch(Exception e) {
+			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
+		}		
 		
 		return "/product_write";
 	}
 	
 	@GetMapping("/admin/cate_list.do")
-	public String cate_list(String page,HttpServletResponse res,HttpServletRequest req,Model m) throws Exception{
+	public String cate_list(
+			String page,HttpServletResponse res,HttpServletRequest req,Model m,
+	        @RequestParam(defaultValue = "", required = false) String search_select,
+	        @RequestParam(defaultValue = "", required = false) String search_word
+			) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
@@ -43,27 +69,19 @@ public class prd_controller extends pw_md{
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
-				List<cate_dao> result = pm.category_selectall(adm_id);
+				List<cate_dao> result = null;
+				if(search_select.equals("") && search_word.equals("")) {
+					result = pm.category_selectall(adm_id);	
+				}else {
+					result = pm.category_selectall2(adm_id,search_select,search_word);	
+		            m.addAttribute("search_part",search_word);
+		            m.addAttribute("search_word",search_word);
+				}
 				
 				float pageno = 3f; //한페이지당 5개씩 노출
 				int alldata= result.size();
 				int total_pg = (int)Math.ceil(alldata/pageno);   
 				
-				int pgno = 0; //page번호 핸들링위한 전역변수
-				
-				if(page == null){ //최초 접속 시
-					pgno = 0;
-				}else {
-					pgno = Integer.parseInt(page);
-				}
-//				else if(page=="1") {
-//					pgno = 1*3;
-//				}else{ //사용자가 페이지 번호를 클릭
-//					int pp = Integer.parseInt(page);
-//					pgno = (pp-1)*3;	
-//				}
-				
-				m.addAttribute("pgno",pgno);
 				m.addAttribute("totalpg",total_pg);
 				m.addAttribute("result",result);
 			}

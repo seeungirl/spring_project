@@ -88,6 +88,70 @@ function make_cate(val){
 		location.href = "./cate_modify.do?c_no="+val;
 	}
 	
-	function modify_cate(){
+	function catelist_search(){
+		catelist_search_frm.method="get";
+		catelist_search_frm.action="./cate_list.do";
+		catelist_search_frm.submit();
+	}
+	
+	function catelist_sc_ck(){
+		var ea = document.getElementById("search_select").children.length;
+		var tg = document.querySelectorAll("option")
+		var w=0;
+		while(w<ea){
+			if(tg[w].value == document.getElementById("search_select").getAttribute("select_data")){
+				tg[w].setAttribute("selected","selected");
+			}
+			w++;
+		}
+	}
+	
+	function priceck(val){
+		var price = prd_write_frm.p_price.value;
+		if(price==""){
+			alert("상품 가격을 입력해주세요.");
+			prd_write_frm.p_price.focus();
+			prd_write_frm.p_dc_percent.value="";
+		}else{
+			if(isNaN(val)==true){
+				alert("숫자로만 입력해주세요.")
+				prd_write_frm.p_dc_percent.value="";
+			}else{
+				var result = Math.floor(price/100*val);
+				
+				if(val == "0"){
+					prd_write_frm.p_dc_money.value = 0;	
+				}else{
+					prd_write_frm.p_dc_money.value = result;
+					
+				}		
+			}	
+		}	
+	}
+	
+	function product_code_ck(){
+		var prdcode = ""; 
+
+		var f;
+		for(f=0; f < 7; f++){
+		    var num = Math.floor(Math.random()*10);
+		    prdcode = prdcode + num;
+		}
 		
+		prd_write_frm.p_code.value = prdcode;
+
+	}
+	
+	function prd_insert(){
+		if(prd_write_frm.cate_name.value == ""){
+			alert("대메뉴 카테고리를 선택해주세요.");
+		}else if(prd_write_frm.p_code.value == ""){
+			
+		}else if(prd_write_frm.p_name.value == ""){
+			
+		}else if(prd_write_frm.p_price.value == ""){
+			
+		}else if(isNaN(prd_write_frm.p_stock.value)==true){
+			alert("상품 재고는 숫자로만 입력 가능합니다.");
+		}
 	}

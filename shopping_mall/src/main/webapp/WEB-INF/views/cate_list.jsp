@@ -31,13 +31,14 @@
 	<div class="subpage_view">
 	    <span>등록된 카테고리 ${arrlength}건</span>
 	    <span>
-	        <form>
-		        <select class="p_select1">
-		            <option>카테고리명</option>
-		            <option>카테고리코드</option>
+	        <form id="catelist_search_frm">
+		        <select class="p_select1" id="search_select" name="search_select" select_data="${search_select}">
+		        	<option value="1">분류 코드</option>
+		        	<option value="2">대메뉴 코드</option>
+		        	<option value="3">대메뉴명</option>
 		        </select>
-		        <input type="text" class="p_input1" placeholder="검색어를 입력해 주세요">
-		        <input type="submit" value="검색" title="카테고리 검색" class="p_submit">
+		        <input type="text" class="p_input1" value="${search_word}" name="search_word" placeholder="검색어를 입력해 주세요">
+		        <input type="submit" value="검색" title="카테고리 검색" class="p_submit" onclick="catelist_search()">
 	        </form>
 	    </span>
 	</div>
@@ -101,6 +102,7 @@
 </body>
 
 <script>
+catelist_sc_ck();
 category_del_ck();
 </script>
 

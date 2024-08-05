@@ -79,12 +79,23 @@
 	    values ('0',#{adm_id},#{group_code},#{cate_code},#{cate_name},#{cate_use},now())
 	</insert>
 	
-	<select id="category_selectall" resultType="catedao"> 
-		select * from cate_list where adm_id=#{adm_id} order by c_no desc
-	</select>
-	
-	<select id="category_selectall_ctn" parameterType="Map" resultType="int">
-   		select count(*) as ctn from cate_list where adm_id=#{adm_id} order by c_no desc;
+	<select id="category_selectall" resultType="catedao"  parameterType="Map"> 
+		select * from cate_list
+		<where>
+		    <if test="search_select==0">
+		        adm_id=#{adm_id}
+		    </if>
+			<if test="search_select==1">
+				adm_id=#{adm_id} and group_code like CONCAT('%',#{search_word},'%') 
+			</if>
+			<if test="search_select==2">
+				adm_id=#{adm_id} and cate_code like CONCAT('%',#{search_word},'%')   
+			</if>
+			<if test="search_select==3">
+				adm_id=#{adm_id} and cate_name like CONCAT('%',#{search_word},'%')    
+			</if>
+		</where>
+		order by c_no desc;
 	</select>
 	
 	<delete id="category_del">
