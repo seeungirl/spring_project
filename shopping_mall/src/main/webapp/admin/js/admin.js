@@ -36,17 +36,18 @@ function duplication_id(adm_id){
 			ajax.onreadystatechange = function(){
 				if(ajax.readyState==4 && ajax.status==200){
 					console.log(this.response); //data가 있으면 1 없으면 0
+					var resultHtml = document.getElementById("adm_info_txt");
 					
 					if(this.response == 0){ //사용가능
-						document.getElementById("adm_info_txt").innerText="사용 가능한 아이디입니다.";
-						document.getElementById("adm_info_txt").style.display = "block";
-						document.getElementById("adm_info_txt").classList.remove('warn');
+						resultHtml.innerText="사용 가능한 아이디입니다.";
+						resultHtml.style.display = "block";
+						resultHtml.classList.remove('warn');
 						join_frm.db_ck.value = "Y";
 					}else{ //사용가능
 						if(this.response > 0){
-							document.getElementById("adm_info_txt").innerText="사용 불가능한 아이디입니다.";
-							document.getElementById("adm_info_txt").style.display = "block";
-							document.getElementById("adm_info_txt").classList.add('warn');
+							resultHtml.innerText="사용 불가능한 아이디입니다.";
+							resultHtml.style.display = "block";
+							resultHtml.classList.add('warn');
 							join_frm.db_ck.value = "N";							
 						}else{
 							alert("잘못된 접근입니다");

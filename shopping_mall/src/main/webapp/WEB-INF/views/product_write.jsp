@@ -25,8 +25,9 @@
 <%@ include file="/admin/layout/admin_header.jsp" %>​
 
 <main class="maincss">
-	<form id="prd_write_frm">
+	<form id="prd_write_frm" enctype="multipart/form-data">
 		<input type="hidden" value="${adm_id}" name="adm_id">
+		<input type="hidden" value="N" name="pd_ck">
 		<section>
 		<p>상품 등록 페이지</p>
 		<div class="product_insert">
@@ -45,13 +46,14 @@
 		        <li>상품코드</li>
 		        <li>
 		            <input type="text" class="product_input1" name="p_code"> 
-		            <input type="button" value="중복확인" title="중복확인" class="product_btn"> <span class="help_text">※ 상품코드는 절대 중복되지 않도록 합니다.</span>
+		            <input type="button" value="중복확인" title="중복확인" class="product_btn" onclick="duplication_prdcode(prd_write_frm.p_code.value)"> 
+		            <span class="help_text" id="db_ck_text">※ 상품코드는 절대 중복되지 않도록 합니다.</span>
 		        </li>
 		    </ul>
 		    <ul>
 		        <li>상품명</li>
 		        <li>
-		            <input type="text" class="product_input2" maxlength="100"> <span class="help_text" name="p_name">※ 상품명은 최대 100자까지만 적용할 수 있습니다.</span>
+		            <input type="text" class="product_input2" maxlength="100" name="p_name"> <span class="help_text">※ 상품명은 최대 100자까지만 적용할 수 있습니다.</span>
 		        </li>
 		    </ul>
 		    <ul>

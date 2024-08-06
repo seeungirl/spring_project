@@ -1,5 +1,6 @@
 package pay;
 
+import java.io.PrintWriter;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,34 +11,108 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
 public class pay_controller {
-	@GetMapping("/pay/coupon_list.do")
-	public String coupon_list(Model m) throws Exception{
+	//CORS방지 필수로 넣어줘야함
+//	@RequestMapping(value="/pay/coupon_api.do",method=RequestMethod.GET)
+	@CrossOrigin(origins = "*",allowedHeaders = "*")
+	@GetMapping("/pay/coupon_api.do")
+	public String coupon_api(HttpServletResponse res) throws Exception{
+		res.setContentType("text/html;charset=utf-8");
+		
+		PrintWriter pw = null;
+		JSONObject jo = null;
+		JSONArray ja = null;
 		Connection con = null;
 		PreparedStatement ps = null;
 		ResultSet rs = null;
-		//1page당 데이터 두개씩
-		int pageno = 2;
+		
+		pw = res.getWriter();
 		try {
-			String sql ="select * from coupon order by cidx desc limit ?,?";			
 			con = new dbinfo().info();
+			//모든 data 싹다 보내줌
+			String sql ="select * from coupon order by cidx desc";
 			ps = con.prepareStatement(sql);
-			ps.setInt(1,0);
-			ps.setInt(2,pageno);
+			rs = ps.executeQuery();
+			ja = new JSONArray();
+			while(rs.next()) {
+				jo = new JSONObject();
+				jo.put("cidx", rs.getString(1));
+				jo.put("cpname", rs.getString(2));
+				jo.put("cprate", rs.getString(3));
+				jo.put("cpuse", rs.getString(4));
+				jo.put("cpdate", rs.getString(5));
+
+				ja.put(jo);
+			}
+			pw.print(ja); //font에 찍어줌
+			
+		}catch(Exception e) {
+			System.out.println(e);
+			pw.print("error");
+		}finally {
+			rs.close();
+			ps.close();
+			con.close();
+			pw.close();
+		}
+		
+		return null;
+	}
+	
+	
+	@GetMapping("/pay/coupon_list.do")
+	public String coupon_list(Model m,@RequestParam(value="",required = false) Integer page) throws Exception{
+		Connection con = null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		ResultSet rs2 = null;
+		int pageno = 3; //data 3개씩
+		int startpg = 0;
+		try {
+			//작업순서3. 각 페이지 넘버 별 - 몇번째 data부터 찍을지 정하는 변수
+			if(page==null || page==1) { //Integer이어야 null 사용 가능
+				startpg = 0;
+			}else {
+				startpg = (page-1)*pageno;
+			}
+			m.addAttribute("startpg",startpg); //Model로 찍어줌-가공된page번호
+
+			con = new dbinfo().info();
+			
+			//작업순서2. data 총 갯수 가져오기
+			String count = "select count(*) as ctn from coupon";
+			ps = con.prepareStatement(count);
+			rs2 = ps.executeQuery();
+			rs2.next();
+			m.addAttribute("total",rs2.getString("ctn")); //Model로 찍어줌
+			
+			//작업순서1. 1page당 데이터 두개씩
+			String sql ="select * from coupon order by cidx desc limit ?,?";
+			ps = con.prepareStatement(sql);
+			ps.setInt(1,startpg);
+			ps.setInt(2,pageno); //startpg부터 pageno개의 data가 출력됨
 			rs = ps.executeQuery();
 			
 			List<ArrayList<String>> arr = new ArrayList<ArrayList<String>>();
-			
 			while(rs.next()) {
 				ArrayList<String> al = new ArrayList<String>();
 				al.add(rs.getString(1));
@@ -48,11 +123,12 @@ public class pay_controller {
 				
 				arr.add(al);
 			}
+			m.addAttribute("all",arr); //Model로 찍어줌
 			
-			m.addAllAttributes(Arrays.asList(arr.get(0)));
 		}catch(Exception e) {
 			System.out.println(e);
 		}finally {
+			rs2.close();
 			rs.close();
 			ps.close();
 			con.close();

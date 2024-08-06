@@ -2,6 +2,7 @@ package shopping_admin;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -10,6 +11,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.servlet.http.Part;
 
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 
 @Controller
 public class prd_controller extends pw_md{
@@ -27,7 +30,40 @@ public class prd_controller extends pw_md{
 	
 	/*--- product list ---*/
 	@GetMapping("/admin/product_list.do")
-	public String product_list() {
+	public String product_list(
+			String page,HttpServletResponse res,HttpServletRequest req,Model m,
+	        @RequestParam(defaultValue = "", required = false) String search_select,
+	        @RequestParam(defaultValue = "", required = false) String search_word
+			) throws Exception{
+		
+		res.setContentType("text/html; charset=UTF-8");
+		
+		try {
+			this.session = req.getSession();
+			String adm_id = (String)this.session.getAttribute("adm_id");
+			if(adm_id==null) {
+				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
+			}else {
+				List<prd_dao> result = null;
+				if(search_select.equals("") && search_word.equals("")) {
+					result = pm.product_selectall(adm_id);	
+				}else {
+					result = pm.product_selectall2(adm_id,search_select,search_word);
+		            m.addAttribute("search_part",search_word);
+		            m.addAttribute("search_word",search_word);
+				}
+				
+				float pageno = 3f; //한페이지당 5개씩 노출
+				int alldata= result.size();
+				int total_pg = (int)Math.ceil(alldata/pageno);   
+				
+				m.addAttribute("totalpg",total_pg);
+				m.addAttribute("result",result);
+			}
+		}catch(Exception e) {
+			e.printStackTrace();
+			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");	
+		}
 		
 		return "/product_list";
 	}
@@ -53,6 +89,54 @@ public class prd_controller extends pw_md{
 		}		
 		
 		return "/product_write";
+	}
+	
+	@GetMapping("/admin/duplication_prdcodeck.do")
+	public String duplication_prdcodeck(
+			HttpServletResponse res,
+			HttpServletRequest req,
+			@ModelAttribute("prdlist") prd_dao dao) 
+		throws Exception {
+		res.setContentType("text/html; charset=UTF-8");
+		req.setCharacterEncoding("UTF-8");
+		int callback = 0;
+		
+		try {
+			this.pw = res.getWriter();
+			callback = pm.prdlist_selectone(dao);
+		}catch(Exception e) {
+			callback = -1;
+		}finally {
+			this.pw.print(callback);
+			this.pw.close();
+		}
+		
+		return null;
+	}
+	
+	@PostMapping("/admin/prdinsert_ok.do")
+	public void prdinsert_ok(
+			HttpServletResponse res, HttpServletRequest req,
+			@RequestParam("p_ori_img") MultipartFile files[],
+			@ModelAttribute("prdlist") prd_dao dao) throws Exception{
+		res.setContentType("text/html; charset=UTF-8");
+		req.setCharacterEncoding("UTF-8");
+		
+		try {
+			ArrayList<String> filesave = pm.prd_filesave(req,files);
+			if(filesave.size() == 2) {
+				int callback = pm.prdlist_insert(dao,filesave);
+				if(callback > 0) {
+					this.golocation(res,"상품 등록이 완료되었습니다","./product_list.do");
+				}else {
+					this.golocation(res,"데이터 오류로 상품 등록에 실패했습니다.","./product_list.do");
+				}
+			}
+		}catch(DataIntegrityViolationException e2) {
+			this.gohistory(res,"해당 정보로 이미 가입된 상품이 있습니다.");
+		}catch(Exception e) {
+			this.golocation(res,"데이터 오류로 상품 등록에 실패했습니다.","./product_list.do");
+		}
 	}
 	
 	@GetMapping("/admin/cate_list.do")
@@ -151,7 +235,10 @@ public class prd_controller extends pw_md{
 	        }else {
 	        	this.golocation(res, "데이터 오류로 인해 삭제 실패했습니다", "./cate_list.do");
 	        }
+	    }catch(DataIntegrityViolationException e) {
+	    	this.golocation(res,"카테고리에 속한 상품이 모두 변경 또는 삭제 되었을 경우만 삭제 가능합니다.","./cate_list.do");
 	    }catch(Exception e) {
+	    	System.out.println(e);
 	    	this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
 	    }
 	}

@@ -142,16 +142,77 @@ function make_cate(val){
 
 	}
 	
+	//상품코드 중복체크
+	function duplication_prdcode(prdcode){
+			if(prdcode != ""){
+				var ajax = new XMLHttpRequest();
+				ajax.onreadystatechange = function(){
+					if(ajax.readyState==4 && ajax.status==200){
+						if(isNaN(prdcode)==true){
+							alert("상품 코드는 숫자로만 입력 가능합니다.");
+							prd_write_frm.p_code.value="";
+						}else if(prdcode.length != 7){
+							alert("상품 코드는 7자리로 입력해주세요");
+							product_code_ck();
+						}else{
+							dp_prdcode_html(this.response); //data가 있으면 1 없으면 0							
+						}
+					}
+				};
+				ajax.open("GET","./duplication_prdcodeck.do?p_code="+prdcode+"&adm_id="+prd_write_frm.adm_id.value ,true);
+				ajax.send();
+			}else{ 
+				alert("아이디를 입력해주세요");
+			}
+	}
+	
+	function dp_prdcode_html(callback){
+		var resulthtml = document.getElementById("db_ck_text");
+		if(callback == 0){ //사용 가능
+			resulthtml.innerText = "사용 가능한 상품코드입니다."
+			resulthtml.classList.remove('warn');
+			resulthtml.classList.add('pass'); 
+			prd_write_frm.pd_ck.value="Y";
+		}else{
+			if(callback > 0){
+				resulthtml.innerText = "이미 존재하는 상품코드입니다."
+				resulthtml.classList.remove('pass');
+				resulthtml.classList.add('warn');
+				prd_write_frm.pd_ck.value="N";
+			}else{
+				alert("잘못된 접근입니다");
+				location.href="./product_write.do.do";
+			}
+		}
+	}
+	
 	function prd_insert(){
 		if(prd_write_frm.cate_name.value == ""){
 			alert("대메뉴 카테고리를 선택해주세요.");
 		}else if(prd_write_frm.p_code.value == ""){
-			
+			alert("상품 코드를 입력해주세요.");
 		}else if(prd_write_frm.p_name.value == ""){
-			
+			alert("상품명을 입력해주세요.");
 		}else if(prd_write_frm.p_price.value == ""){
-			
+			alert("상품 가격을 입력해주세요.");
+		}else if(isNaN(prd_write_frm.p_price.value)==true){
+			alert("상품 가격은 숫자로만 입력 가능합니다.");
 		}else if(isNaN(prd_write_frm.p_stock.value)==true){
 			alert("상품 재고는 숫자로만 입력 가능합니다.");
+		}else if(prd_write_frm.p_ori_img[0].value == ""){
+			alert("썸네일 이미지를 등록해주세요.");
+		}else if(prd_write_frm.pd_ck.value == ""){
+			alert("상품 코드 중복체크를 해주세요");
+		}else{
+			prd_write_frm.method="post";
+			prd_write_frm.action="./prdinsert_ok.do";
+			prd_write_frm.submit();
 		}
 	}
+	
+	function prdlist_search(){
+		catelist_search_frm.method="get";
+		catelist_search_frm.action="./product_list.do";
+		catelist_search_frm.submit();
+	}
+	

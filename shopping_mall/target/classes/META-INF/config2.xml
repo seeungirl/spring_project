@@ -7,5 +7,6 @@
 		<typeAlias alias="mbsdao" type="shopping_admin.mb_set_dao"/>
 		<typeAlias alias="mpsdao" type="shopping_admin.mp_set_dao"/>
 		<typeAlias alias="catedao" type="shopping_admin.cate_dao"/>
+		<typeAlias alias="prddao" type="shopping_admin.prd_dao"/>
 	</typeAliases>
 </configuration>

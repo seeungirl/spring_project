@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="shop">
+
+	<!-- adminlist -->
 	<insert id="admlist_insert" parameterType="Map" >
 	    insert into admin_list (adm_no,adm_id,adm_pass,adm_name,adm_email,adm_phone,adm_position1,adm_position2,adm_aprove,adm_date)
 	    values ('0',#{adm_id},#{adm_pass},#{adm_name},#{adm_email},#{adm_phone},#{adm_position1},#{adm_position2},#{adm_aprove},now())
@@ -23,7 +25,7 @@
 	    adm_aprove=#{adm_aprove} where adm_no=#{adm_no}
 	</update>
 	
-	
+	<!-- siteinfo -->
 	<insert id="mjdao_insert" parameterType="Map" >
 	    insert into mall_join_setting 
 	    (mjs_no,adm_id,ms_mallname,ms_admemail,ms_pointuse,ms_joinpoint,ms_joinlevel) 
@@ -73,7 +75,7 @@
     </update>
     
     
-    <!-- product -->
+<!--     category -->
    	<insert id="category_insert" parameterType="Map">
 	    insert into cate_list (c_no,adm_id,group_code,cate_code,cate_name,cate_use,cate_date) 
 	    values ('0',#{adm_id},#{group_code},#{cate_code},#{cate_name},#{cate_use},now())
@@ -109,5 +111,31 @@
 	<update id="category_update" parameterType="Object"> 
 	    update cate_list set group_code=#{group_code},cate_code=#{cate_code},cate_name=#{cate_name},cate_use=#{cate_use} where c_no=#{c_no};
 	</update>
+	
+	<!-- product -->
+	<insert id="prdlist_insert" parameterType="Map" >
+	    insert into prd_list (p_no,adm_id,cate_name,p_code,p_name,p_summary,p_price,p_dc_percent,p_dc_money,p_stock,p_use,p_soldout,p_ori_img,p_thumb_img,p_desc,p_indate) 
+	    values ('0',#{adm_id},#{cate_name},#{p_code},#{p_name},#{p_summary},#{p_price},#{p_dc_percent},#{p_dc_money},#{p_stock},#{p_use},#{p_soldout},#{p_ori_img},#{p_thumb_img},#{p_desc},now())
+	</insert>
+	
+	<select id="prdlist_select_idpcode" parameterType="Map" resultType="int">
+   		select count(*) as ctn from prd_list where adm_id=#{adm_id} and p_code=#{p_code} order by p_no desc;
+	</select>
+	
+	<select id="product_selectall" resultType="prddao"  parameterType="Map"> 
+		select * from prd_list
+		<where>
+		    <if test="search_select==0">
+		        adm_id=#{adm_id}
+		    </if>
+			<if test="search_select==1">
+				adm_id=#{adm_id} and p_name like CONCAT('%',#{search_word},'%') 
+			</if>
+			<if test="search_select==2">
+				adm_id=#{adm_id} and p_code like CONCAT('%',#{search_word},'%')   
+			</if>
+		</where>
+		order by p_no desc;
+	</select>
 
 </mapper>

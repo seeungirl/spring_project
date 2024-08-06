@@ -9,9 +9,8 @@
 <title>JSTL 페이징 사용법</title>
 </head>
 <body>
-<p>쿠폰리스트</p>
-${stringList[0]}
-<table>
+<p>쿠폰리스트 총 게시물 : ${total}</p>
+<table border="1">
 	<thead>
 		<tr>
 			<th>번호</th>
@@ -22,14 +21,28 @@ ${stringList[0]}
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-			<td></td>
-		</tr>
+		<cr:set var="ino" value="${total-startpg}" />
+		<cr:forEach var="data" items="${all}" varStatus="idx">
+			<tr>
+				<td>${ino-idx.index}</td>
+				<td>${data.get(1)}</td>
+				<td>${data.get(2)}</td>
+				<td>${data.get(3)}</td>
+				<td>${data.get(4)}</td>
+			</tr>
+		</cr:forEach>
 	</tbody>
+</table>
+
+<!-- 페이지 번호 출력 -->
+<!-- data7개,한페이지당 3개씩 => 총 3페이지 -->
+<table>
+	<tr>
+		<cr:set var="pg" value="${total/3+(1-((total/3)%1))%1}" />
+		<cr:forEach var="no" begin="1" end="${pg}" step="1">
+			<td><a href="./coupon_list.do?page=${no}">${no}</a></td>
+		</cr:forEach>
+	</tr>
 </table>
 
 </body>
