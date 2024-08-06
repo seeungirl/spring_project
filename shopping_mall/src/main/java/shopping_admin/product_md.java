@@ -26,11 +26,11 @@ public class product_md{
 		return result;
 	}
 	
-	public List<cate_dao> category_selectall(String adm_id) {
+	public List<cate_dao> category_selectall(String adm_id,String part) {
 		List<cate_dao> all = new ArrayList<cate_dao>();
 		
 	    Map<String, String> m = new HashMap<String, String>();
-	    m.put("search_select", "0");
+	    m.put("search_select", part);
 	    m.put("adm_id", adm_id);
 	    
 		all = tm2.selectList("shop.category_selectall",m);

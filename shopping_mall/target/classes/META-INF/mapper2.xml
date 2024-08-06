@@ -96,6 +96,9 @@
 			<if test="search_select==3">
 				adm_id=#{adm_id} and cate_name like CONCAT('%',#{search_word},'%')    
 			</if>
+		    <if test="search_select==4">
+		        adm_id=#{adm_id} and cate_use='Y' 
+		    </if>
 		</where>
 		order by c_no desc;
 	</select>

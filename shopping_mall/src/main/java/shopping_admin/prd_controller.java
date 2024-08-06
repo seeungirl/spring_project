@@ -79,7 +79,7 @@ public class prd_controller extends pw_md{
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
-				List<cate_dao> result = pm.category_selectall(adm_id);
+				List<cate_dao> result = pm.category_selectall(adm_id,"4");
 				m.addAttribute("catelist",result);	
 				m.addAttribute("adm_id",adm_id);
 			}
@@ -155,7 +155,7 @@ public class prd_controller extends pw_md{
 			}else {
 				List<cate_dao> result = null;
 				if(search_select.equals("") && search_word.equals("")) {
-					result = pm.category_selectall(adm_id);	
+					result = pm.category_selectall(adm_id,"0");	
 				}else {
 					result = pm.category_selectall2(adm_id,search_select,search_word);	
 		            m.addAttribute("search_part",search_word);

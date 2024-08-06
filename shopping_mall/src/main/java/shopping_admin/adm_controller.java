@@ -81,7 +81,7 @@ public class adm_controller extends pw_md{
 			if(callback.getAdm_aprove().equals("Y")==true) {
 				this.session.setAttribute("adm_id", callback.getAdm_id());
 				this.session.setMaxInactiveInterval(1800);
-				message = "로그인에 성공했습니다.";
+				message = dao.getAdm_id()+"님 환영합니다.";
 			}else {
 				message = "승인전 회원입니다. 관리자에게 승인을 요청하세요.";
 			}
