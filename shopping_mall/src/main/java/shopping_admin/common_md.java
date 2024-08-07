@@ -2,9 +2,11 @@ package shopping_admin;
 
 import java.io.PrintWriter;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
-public class pw_md {
+public class common_md {
 	PrintWriter pw = null;
 	public void golocation(HttpServletResponse res,String msg,String url) throws Exception {
 		this.pw=res.getWriter();
@@ -22,5 +24,13 @@ public class pw_md {
 				+ "history.go(-1);"
 				+ "</script>");
 		this.pw.close();
+	}
+	
+	private HttpSession session = null;
+	protected String getsession(HttpServletRequest req) {
+		this.session = req.getSession();
+		String session_adm_id = (String)this.session.getAttribute("adm_id");
+		
+		return session_adm_id;
 	}
 }

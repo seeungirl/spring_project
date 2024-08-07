@@ -75,7 +75,7 @@
     </update>
     
     
-<!--     category -->
+	<!-- category -->
    	<insert id="category_insert" parameterType="Map">
 	    insert into cate_list (c_no,adm_id,group_code,cate_code,cate_name,cate_use,cate_date) 
 	    values ('0',#{adm_id},#{group_code},#{cate_code},#{cate_name},#{cate_use},now())
@@ -140,5 +140,23 @@
 		</where>
 		order by p_no desc;
 	</select>
+	
+	<delete id="product_del">
+	    delete from prd_list where p_no=#{p_no} order by p_no desc;
+	</delete>
+	
+	<select id="product_selectone" parameterType="Map" resultType="prddao">
+   		select * from prd_list where p_no=#{p_no} order by p_no desc
+	</select>
+	
+	<update id="product_update" parameterType="Map"> 
+	    update prd_list set 
+	    cate_name=#{cate_name},p_code=#{p_code},p_name=#{p_name},
+	    p_summary=#{p_summary},p_price=#{p_price},
+	    p_dc_percent=#{p_dc_percent},
+	    p_dc_money=#{p_dc_money},p_stock=#{p_stock},p_use=#{p_use},
+	    p_soldout=#{p_soldout},p_ori_img=#{p_ori_img},
+	    p_thumb_img=#{p_thumb_img},p_desc=#{p_desc} where p_no=#{p_no};
+	</update>
 
 </mapper>

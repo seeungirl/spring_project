@@ -23,10 +23,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 @Controller
-public class prd_controller extends pw_md{
+public class prd_controller extends common_md{
 	@Resource(name = "prd_md") 
 	private product_md pm;
-	private HttpSession session = null;
 	
 	/*--- product list ---*/
 	@GetMapping("/admin/product_list.do")
@@ -39,8 +38,7 @@ public class prd_controller extends pw_md{
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
+			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
@@ -49,7 +47,7 @@ public class prd_controller extends pw_md{
 					result = pm.product_selectall(adm_id);	
 				}else {
 					result = pm.product_selectall2(adm_id,search_select,search_word);
-		            m.addAttribute("search_part",search_word);
+		            m.addAttribute("search_select",search_select);
 		            m.addAttribute("search_word",search_word);
 				}
 				
@@ -74,8 +72,7 @@ public class prd_controller extends pw_md{
 			) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
+			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
@@ -117,7 +114,7 @@ public class prd_controller extends pw_md{
 	@PostMapping("/admin/prdinsert_ok.do")
 	public void prdinsert_ok(
 			HttpServletResponse res, HttpServletRequest req,
-			@RequestParam("p_ori_img") MultipartFile files[],
+			@RequestParam("files") MultipartFile files[],
 			@ModelAttribute("prdlist") prd_dao dao) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		req.setCharacterEncoding("UTF-8");
@@ -125,7 +122,7 @@ public class prd_controller extends pw_md{
 		try {
 			ArrayList<String> filesave = pm.prd_filesave(req,files);
 			if(filesave.size() == 2) {
-				int callback = pm.prdlist_insert(dao,filesave);
+				int callback = pm.prdlist_insert(dao,filesave,"insert");
 				if(callback > 0) {
 					this.golocation(res,"상품 등록이 완료되었습니다","./product_list.do");
 				}else {
@@ -139,6 +136,81 @@ public class prd_controller extends pw_md{
 		}
 	}
 	
+	@PostMapping("/admin/prd_deleteok.do")
+	public void prd_deleteok(
+			String[] oneck,HttpServletResponse res
+		) throws Exception{
+	    res.setContentType("text/html;charset=utf-8");
+	    
+	    try {
+	        int callback = pm.product_del(oneck);
+	        if(callback > 0) {
+	        	this.golocation(res, "삭제 완료했습니다", "./product_list.do");
+	        }else {
+	        	this.golocation(res, "데이터 오류로 인해 삭제 실패했습니다", "./product_list.do");
+	        }
+	    }catch(Exception e) {
+	    	System.out.println(e);
+	    	this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
+	    }
+	}
+	
+	@GetMapping("/admin/product_modify.do")
+	public String product_modify(
+			String p_no,
+			Model m,
+			HttpServletRequest req,
+			HttpServletResponse res,
+			@ModelAttribute("prdlist") prd_dao dao
+		) throws Exception {
+		try {
+			res.setContentType("text/html; charset=UTF-8");
+			
+			String adm_id = this.getsession(req);
+			if(adm_id == null) {
+				this.golocation(res,"쇼핑몰 관리자로 로그인해주세요.","./index.jsp");
+			}else {
+				List<cate_dao> result = pm.category_selectall(adm_id,"4");
+				m.addAttribute("catelist",result);	
+				m.addAttribute("adm_id",adm_id);
+				
+				prd_dao callback = pm.product_selectone(p_no);
+				m.addAttribute("result",callback);
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
+		}
+		
+		return "/product_modify";
+	}
+	
+	@PostMapping("/admin/prdmodify_ok.do")
+	public void prdmodify_ok(
+			HttpServletResponse res, HttpServletRequest req,
+			@RequestParam("files") MultipartFile files[],
+			@ModelAttribute("prdlist") prd_dao dao
+		) throws Exception {
+		res.setContentType("text/html; charset=UTF-8");
+		
+		try {
+//			int callback = pm.product_update(prddao);
+			ArrayList<String> filesave = pm.prd_filesave(req,files);
+			int callback = pm.prdlist_insert(dao,filesave,"update");
+			System.out.println(callback);
+			if(callback > 0) {
+				this.golocation(res, "상품 수정이 완료되었습니다", "./prd_list.do");
+			}
+			
+		}catch(Exception e){
+			e.printStackTrace();
+			System.out.println(e);
+//			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
+		}
+
+	}
+	
+	
 	@GetMapping("/admin/cate_list.do")
 	public String cate_list(
 			String page,HttpServletResponse res,HttpServletRequest req,Model m,
@@ -148,8 +220,7 @@ public class prd_controller extends pw_md{
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
+			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
@@ -158,7 +229,7 @@ public class prd_controller extends pw_md{
 					result = pm.category_selectall(adm_id,"0");	
 				}else {
 					result = pm.category_selectall2(adm_id,search_select,search_word);	
-		            m.addAttribute("search_part",search_word);
+		            m.addAttribute("search_select",search_select);
 		            m.addAttribute("search_word",search_word);
 				}
 				
@@ -184,9 +255,7 @@ public class prd_controller extends pw_md{
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
-			
+			String adm_id = this.getsession(req);
 			if(adm_id == null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인해주세요.","./index.jsp");
 			}else {
@@ -224,12 +293,12 @@ public class prd_controller extends pw_md{
 	
 	@PostMapping("/admin/cate_deleteok.do")
 	public void cate_deleteok(
-			String[] cateck,HttpServletResponse res
+			String[] oneck,HttpServletResponse res
 		) throws Exception{
 	    res.setContentType("text/html;charset=utf-8");
 	    
 	    try {
-	        int callback = pm.category_del(cateck);
+	        int callback = pm.category_del(oneck);
 	        if(callback > 0) {
 	        	this.golocation(res, "삭제 완료했습니다", "./cate_list.do");
 	        }else {
@@ -254,9 +323,7 @@ public class prd_controller extends pw_md{
 		try {
 			res.setContentType("text/html; charset=UTF-8");
 			
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
-			
+			String adm_id = this.getsession(req);
 			if(adm_id == null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인해주세요.","./index.jsp");
 			}else {

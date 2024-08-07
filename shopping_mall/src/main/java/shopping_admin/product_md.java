@@ -88,7 +88,7 @@ public class product_md{
 	}
 	
 	//prd insert
-	public int prdlist_insert(prd_dao dao,ArrayList<String> filesave) {
+	public int prdlist_insert(prd_dao dao,ArrayList<String> filesave,String action) {
 		
 		Map<String, String> kc = new HashMap<String, String>();
 		kc.put("adm_id", dao.getAdm_id());
@@ -105,8 +105,14 @@ public class product_md{
 		kc.put("p_ori_img", filesave.get(0));
 		kc.put("p_thumb_img", filesave.get(1));
 		kc.put("p_desc", dao.getP_desc());
-		
-		int result = tm2.insert("shop.prdlist_insert",kc);
+		kc.put("p_no", String.valueOf(dao.getP_no()));
+
+		int result = 0;
+		if(action == "insert") {
+			result = tm2.insert("shop.prdlist_insert",kc);
+		}else if(action == "update") {
+			result = tm2.update("shop.product_update",kc);
+		}
 		
 		return result;
 	}
@@ -171,6 +177,30 @@ public class product_md{
 		
 		return all;
 	}
+	
+	public int product_del(String[] prdck) {
+	    int result = 0;
+	    int w=0;
+	    while(w<prdck.length) {
+	        result += tm2.delete("shop.product_del",prdck[w]);	
+	        w++;
+	    }
+
+	    return result;
+	}
+	
+	public prd_dao product_selectone(String no) {
+		prd_dao result = tm2.selectOne("shop.product_selectone",no);
+		
+		return result;
+	}
+	
+	public int product_update(prd_dao prddao) {
+		int result = tm2.update("shop.product_update",prddao);
+		
+		return result;
+	}
+	
 	
 	
 }

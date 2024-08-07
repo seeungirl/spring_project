@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class adm_controller extends pw_md{
+public class adm_controller extends common_md{
 	
 	PrintWriter pw = null;
 	
@@ -34,7 +34,6 @@ public class adm_controller extends pw_md{
 		
 		try {
 			int callback = al_m.admlist_insert(dao);
-
 			if(callback>0){
 				this.golocation(res,"관리자 등록이 완료되었습니다","./admin_main.do");
 			}
@@ -97,9 +96,7 @@ public class adm_controller extends pw_md{
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
-			
+			String adm_id = this.getsession(req);
 			if(adm_id!=null) {
 				this.session.invalidate();
 				this.golocation(res,"정상적으로 로그아웃되셨습니다.","./index.jsp");
@@ -116,8 +113,7 @@ public class adm_controller extends pw_md{
 	public String admin_main(HttpServletResponse res,HttpServletRequest req) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
+			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"로그인 해주세요.","./index.jsp");				
 			}else {
@@ -135,9 +131,7 @@ public class adm_controller extends pw_md{
 	public String admin_master(HttpServletResponse res,HttpServletRequest req) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
-
+			String adm_id = this.getsession(req);
 			if(adm_id==null || adm_id.equals("master")==false) {
 				this.golocation(res,"최고관리자만 등록이 가능합니다.","./admin_main.do");
 			}
@@ -178,8 +172,7 @@ public class adm_controller extends pw_md{
 	public String admin_list(HttpServletResponse res,HttpServletRequest req,Model m) throws Exception {
 		res.setContentType("text/html; charset=UTF-8");
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
+			String adm_id = this.getsession(req);
 			if(adm_id==null || adm_id.equals("master")==false) {
 				this.golocation(res,"최고관리자만 등록이 가능합니다.","./admin_main.do");
 			}else {
@@ -202,9 +195,7 @@ public class adm_controller extends pw_md{
 		) throws Exception {
 		res.setContentType("text/html; charset=UTF-8");
 		try {
-			this.session = req.getSession();
-			String adm_id = (String)this.session.getAttribute("adm_id");
-			
+			String adm_id = this.getsession(req);
 			if(adm_id == null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인해주세요.","./index.jsp");
 			}else {

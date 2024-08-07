@@ -40,9 +40,9 @@ function make_cate(val){
 }
 
 	var sum=0;
-	function category_del_ck(){
+	function cateprd_del_ck(){
 		var allck = document.getElementById("allck");
-		var ck = document.getElementsByName("cateck");
+		var ck = document.getElementsByName("oneck");
 		allck.addEventListener("click",function(){
 			var cked = this.checked;
 			var w=0;
@@ -72,14 +72,24 @@ function make_cate(val){
 	}
 
 
-	function category_delete(){
+	function cateprd_delete(part){
+		var action = "";
+		var frm;
+		if(part=="cate"){
+			action = "./cate_deleteok.do";
+			frm = cate_delete_frm;
+		}else if(part=="prd"){
+			action = "./prd_deleteok.do";
+			frm = prd_delete_frm;
+		}
+		
 		if(sum == 0){
 			alert('삭제할 카테고리를 선택해주세요.');
 		}else{
 			if(confirm("정말 삭제하시겠습니까?")){
-				cate_delete_frm.method = 'POST';
-				cate_delete_frm.action = './cate_deleteok.do';
-				cate_delete_frm.submit();			
+				frm.method = 'POST';
+				frm.action = action;
+				frm.submit();			
 			}
 		}
 	}
@@ -94,7 +104,7 @@ function make_cate(val){
 		catelist_search_frm.submit();
 	}
 	
-	function catelist_sc_ck(){
+	function cateprd_sc_ck(){
 		var ea = document.getElementById("search_select").children.length;
 		var tg = document.querySelectorAll("option")
 		var w=0;
@@ -106,23 +116,23 @@ function make_cate(val){
 		}
 	}
 	
-	function priceck(val){
-		var price = prd_write_frm.p_price.value;
+	function priceck(val,target){
+		var price = target.p_price.value;
 		if(price==""){
 			alert("상품 가격을 입력해주세요.");
-			prd_write_frm.p_price.focus();
-			prd_write_frm.p_dc_percent.value="";
+			target.p_price.focus();
+			target.p_dc_percent.value="";
 		}else{
 			if(isNaN(val)==true){
 				alert("숫자로만 입력해주세요.")
-				prd_write_frm.p_dc_percent.value="";
+				target.p_dc_percent.value="";
 			}else{
 				var result = Math.floor(price/100*val);
 				
 				if(val == "0"){
-					prd_write_frm.p_dc_money.value = 0;	
+					target.p_dc_money.value = 0;	
 				}else{
-					prd_write_frm.p_dc_money.value = result;
+					target.p_dc_money.value = result;
 					
 				}		
 			}	
@@ -186,27 +196,37 @@ function make_cate(val){
 		}
 	}
 	
-	function prd_insert(){
-		if(prd_write_frm.cate_name.value == ""){
+	function prd_insert(val){
+		var frm;
+		var action = "";
+		if(val=='write'){
+			frm = prd_write_frm;
+			action="./prdinsert_ok.do";							
+		}else{
+			frm = prd_modify_frm;
+			action="./prdmodify_ok.do";	
+		}
+		
+		if(frm.cate_name.value == ""){
 			alert("대메뉴 카테고리를 선택해주세요.");
-		}else if(prd_write_frm.p_code.value == ""){
+		}else if(frm.p_code.value == ""){
 			alert("상품 코드를 입력해주세요.");
-		}else if(prd_write_frm.p_name.value == ""){
+		}else if(frm.p_name.value == ""){
 			alert("상품명을 입력해주세요.");
-		}else if(prd_write_frm.p_price.value == ""){
+		}else if(frm.p_price.value == ""){
 			alert("상품 가격을 입력해주세요.");
-		}else if(isNaN(prd_write_frm.p_price.value)==true){
+		}else if(isNaN(frm.p_price.value)==true){
 			alert("상품 가격은 숫자로만 입력 가능합니다.");
-		}else if(isNaN(prd_write_frm.p_stock.value)==true){
+		}else if(isNaN(frm.p_stock.value)==true){
 			alert("상품 재고는 숫자로만 입력 가능합니다.");
-		}else if(prd_write_frm.p_ori_img[0].value == ""){
+		}else if(frm.files[0].value == ""){
 			alert("썸네일 이미지를 등록해주세요.");
-		}else if(prd_write_frm.pd_ck.value == ""){
+		}else if(frm.pd_ck.value == ""){
 			alert("상품 코드 중복체크를 해주세요");
 		}else{
-			prd_write_frm.method="post";
-			prd_write_frm.action="./prdinsert_ok.do";
-			prd_write_frm.submit();
+			frm.method="post";
+			frm.action=action;
+			frm.submit();
 		}
 	}
 	
@@ -214,5 +234,41 @@ function make_cate(val){
 		catelist_search_frm.method="get";
 		catelist_search_frm.action="./product_list.do";
 		catelist_search_frm.submit();
+	}
+	
+	function product_modify_imgck(){
+		var imgbox = document.querySelectorAll("#img_area >div");
+		var files = document.getElementsByName("files");
+		if(imgbox.length > 0){
+			var w=0;
+			while(w<imgbox.length){
+				files[w].parentNode.style.display = "none";
+				w++;
+			}
+		}
+	}
+	
+	function imgdel(val){
+		var files = document.getElementsByName("files");
+		var imgbox = document.querySelectorAll("#img_area >div");
+		files[val].parentNode.style.display="block";
+		if(imgbox.length > 0){
+			var w=0;
+			while(w<imgbox.length){
+				console.log(imgbox[w].parentNode.getAttribute("data-no"),val)
+				if(imgbox[w].getAttribute("data-no") == val){
+					imgbox[w].remove();
+				}
+				w++;
+			}
+		}
+	}
+	
+	function prd_gomodify(val){
+		location.href = "./product_modify.do?p_no="+val;
+	}
+	
+	function prd_modify(){
+		console.log(prd_modify_frm.files[0].value);
 	}
 	

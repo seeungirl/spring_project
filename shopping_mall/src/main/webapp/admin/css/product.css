@@ -190,6 +190,16 @@ line-height : 1.2;
     border-bottom: 1px solid #fff;
     font-size: 13px;
 }
+
+.product_insert > ul:has(.img_box) {height : 400px !important;}
+.product_insert > ul:has(.img_area) .img_area {margin-bottom : 20px;}
+.product_insert > ul > li:has(.img_box) { flex-direction: column; align-items: start;padding: 15px 0;}
+.product_insert > ul > li:has(.img_area) div:has(.img_box) {text-align: center;padding: 10px;display: inline-flex;flex-direction: column;align-items: center;background-color: #eee; margin: 5px;}
+.product_insert > ul > li:has(.img_area) .img_box {width : 120px; height : 120px; overflow : hidden; display : block;}
+.product_insert > ul > li:has(.img_area) .img_box img {max-width : 100%;}
+.product_insert > ul > li:has(.img_area) .img_box + a {color : #333; text-decoration : underline;}
+.product_insert > ul > li:has(.img_area) .img_box ~ input[type='button'] {margin-top : 20px;}
+
 .product_insert > ul > li:nth-of-type(1){
     text-indent: 5px;
     width: 15%;

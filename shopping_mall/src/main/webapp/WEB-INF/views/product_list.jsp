@@ -32,11 +32,11 @@
     <span>등록된 상품 ${arrlength} 건</span>
     <span>
         <form id="prdlist_search_frm">
-        <select class="p_select1"  id="search_select" name="search_select">
+        <select class="p_select1"  id="search_select" name="search_select" select_data="${search_select}">
             <option value="1">상품명</option>
             <option value="2">상품코드</option>
         </select>
-        <input type="text" class="p_input1" placeholder="검색어를 입력해 주세요" name="search_word">
+        <input type="text" class="p_input1" value="${search_word}" placeholder="검색어를 입력해 주세요" name="search_word">
         <input type="submit" value="검색" title="상품검색" class="p_submit" onclick="prdlist_search()">
         </form>
     </span>
@@ -44,7 +44,7 @@
 <form id="prd_delete_frm">
 	<div class="subpage_view2">
 	    <ul>
-	        <li><input type="checkbox"></li>
+	        <li><input type="checkbox" id="allck"></li>
 	        <li>코드</li>
 	        <li>이미지</li>
 	        <li>상품명</li>
@@ -64,9 +64,9 @@
 	    </cr:if>
 	    <cr:forEach var="arr" items="${result}" varStatus="no">
 	    <ul>
-	        <li><input type="checkbox" name="prdck" value='${arr.p_no}'></li>
+	        <li><input type="checkbox" name="oneck" value='${arr.p_no}'></li>
 	        <li>${arr.p_code}</li>
-	        <li class=thumbmail><img src="../prdimg_upload/${arr.p_thumb_img.split(",")[0]}"></li>
+	        <li class="thumbmail"><img src="../prdimg_upload/${arr.p_thumb_img.split(",")[0]}"></li>
 	        <li>${arr.p_name}</li>
 	        <li>${arr.cate_name}</li>
 	        <li>${arr.p_price}</li>
@@ -75,7 +75,9 @@
 	        <li>${arr.p_stock}</li>
 	        <li>${arr.p_use}</li>
 	        <li>${arr.p_soldout}</li>
-	        <li>관리</li>
+	        <li>
+	        	<a href="javascript:void prd_gomodify('${arr.p_no}')" style="color : #333">[관리]</a>
+	        </li>
 	    </ul>
 		</cr:forEach>
 	</div>
@@ -91,7 +93,7 @@
     </ul>
 </div>
 <div class="subpage_view4">
-    <input type="button" value="선택상품 삭제" title="선택상품 삭제" class="p_button">
+    <input type="button" value="선택상품 삭제" title="선택상품 삭제" class="p_button" onclick="cateprd_delete('prd')">
     <span style="float: right;">
     <input type="button" value="신규상품 등록" title="신규상품 등록" class="p_button p_button_color1" onclick="go_prdwrite()">
     <input type="button" value="카테고리 리스트" title="카테고리 리스트" class="p_button p_button_color2" onclick="go_catelist()">
@@ -101,4 +103,10 @@
 </main>
 <%@ include file="/admin/layout/footer.jsp" %>
 </body>
+
+<script>
+cateprd_sc_ck();
+cateprd_del_ck();
+</script>
+
 </html>

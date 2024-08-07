@@ -65,13 +65,13 @@
 		    <ul>
 		        <li>판매가격</li>
 		        <li>
-		            <input type="text" name="p_price" class="product_input3" maxlength="7"> <span class="help_text">※ , 없이 숫자만 입력하세요 최대 7자리</span>
+		            <input type="text" name="p_price" class="product_input3" maxlength="7" onkeyup="priceck(prd_write_frm.p_dc_percent.value,prd_write_frm)"> <span class="help_text">※ , 없이 숫자만 입력하세요 최대 7자리</span>
 		        </li>
 		    </ul>
 		    <ul>
 		        <li>할인율</li>
 		        <li>
-		            <input type="text" name="p_dc_percent" class="product_input3" maxlength="2" value="0" onkeyup="priceck(this.value)">% <span class="help_text">※ 숫자만 입력하세요</span>
+		            <input type="text" name="p_dc_percent" class="product_input3" maxlength="2" value="0" onkeyup="priceck(this.value,prd_write_frm)">% <span class="help_text">※ 숫자만 입력하세요</span>
 		        </li>
 		    </ul>
 		    <ul>
@@ -113,15 +113,15 @@
 		        <li>
 		            <ol style="width:100%; height: auto;">
 		            <li style="width:100%; height:45px;">
-		            <input type="file" name="p_ori_img">
+		            <input type="file" name="files">
 		            <span class="help_text">※ 상품 대표이미지 이며, 이미지 용량은 2MB 까지 입니다.</span>
 		            </li>
 		            <li style="height:45px;">
-		            <input type="file" name="p_ori_img">
+		            <input type="file" name="files">
 		            <span class="help_text">※ 추가 이미지 이며, 이미지 용량은 2MB 까지 입니다.</span>
 		            </li>
 		            <li style="height:45px;">
-		            <input type="file" name="p_ori_img">
+		            <input type="file" name="files">
 		            <span class="help_text">※ 추가 이미지 이며, 이미지 용량은 2MB 까지 입니다.</span>
 		            </li>
 		            </ol>
@@ -136,7 +136,7 @@
 		</div>
 		<div class="subpage_view4" style="text-align:center; margin-bottom: 100px;">
 		    <input type="button" value="상품 리스트" title="상품 리스트" class="p_button p_button_color1" style="margin-right: 5px;" onclick="go_prdlist()">
-		    <input type="button" value="상품 등록" title="상품 등록" class="p_button p_button_color2" onclick="prd_insert()">
+		    <input type="button" value="상품 등록" title="상품 등록" class="p_button p_button_color2" onclick="prd_insert('write')">
 		    </span>
 		</div>
 		</section>
