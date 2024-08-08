@@ -219,11 +219,27 @@ function make_cate(val){
 			alert("상품 가격은 숫자로만 입력 가능합니다.");
 		}else if(isNaN(frm.p_stock.value)==true){
 			alert("상품 재고는 숫자로만 입력 가능합니다.");
-		}else if(frm.files[0].value == ""){
+		}else if(frm.files[0].value == "" && val == 'write'){
 			alert("썸네일 이미지를 등록해주세요.");
 		}else if(frm.pd_ck.value == ""){
 			alert("상품 코드 중복체크를 해주세요");
 		}else{
+			if(val=='modify'){
+				var orithumb = document.querySelectorAll("#img_area > div");
+
+				var i=0;
+				var data = "";
+				while(i<3){
+					if($("#img_area>div[data-no='"+ i +"']").length){
+						data = $("#img_area>div[data-no='"+ i +"'] img").attr("src").split("prdimg_upload/")[1];
+					}else{
+						data="";
+					}
+					$("input[name='old_p_thumb_img'][data-no='"+ i +"']").val(data);
+					
+					i++;
+				}
+			}
 			frm.method="post";
 			frm.action=action;
 			frm.submit();
@@ -249,19 +265,12 @@ function make_cate(val){
 	}
 	
 	function imgdel(val){
-		var files = document.getElementsByName("files");
-		var imgbox = document.querySelectorAll("#img_area >div");
-		files[val].parentNode.style.display="block";
-		if(imgbox.length > 0){
-			var w=0;
-			while(w<imgbox.length){
-				console.log(imgbox[w].parentNode.getAttribute("data-no"),val)
-				if(imgbox[w].getAttribute("data-no") == val){
-					imgbox[w].remove();
-				}
-				w++;
-			}
-		}
+		$("#file_area > li[data-no='"+ val +"']").css("display","block");
+		
+		var img = $("#img_area > div[data-no='"+ val +"'] >a").attr("href").split("prdimg_upload/")[1];
+		$("input[name='del_p_thumb_img'][data-no='"+ val +"']").val(img);
+		$("input[name='old_p_ori_img'][data-no='"+ val +"']").val("");
+		$("#img_area>div[data-no='"+ val +"']").remove();
 	}
 	
 	function prd_gomodify(val){

@@ -2,6 +2,7 @@ package shopping_admin;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -102,13 +103,13 @@ public class product_md{
 		kc.put("p_stock",  String.valueOf(dao.getP_stock()));
 		kc.put("p_use", dao.getP_use());
 		kc.put("p_soldout", dao.getP_soldout());
-		kc.put("p_ori_img", filesave.get(0));
-		kc.put("p_thumb_img", filesave.get(1));
 		kc.put("p_desc", dao.getP_desc());
 		kc.put("p_no", String.valueOf(dao.getP_no()));
 
 		int result = 0;
 		if(action == "insert") {
+			kc.put("p_ori_img", filesave.get(0));
+			kc.put("p_thumb_img", filesave.get(1));
 			result = tm2.insert("shop.prdlist_insert",kc);
 		}else if(action == "update") {
 			result = tm2.update("shop.product_update",kc);
@@ -124,33 +125,119 @@ public class product_md{
 		String ori = "";
 		String fake = "";
 		
-		if( files[0].getSize() > 0 ) {
-			int w=0;
-			String filenm = new prd_imgsave().rename();
-			while(w<files.length) {
-				if(files[w].getSize() > 0) {
-					int com = files[w].getOriginalFilename().indexOf(".");
-					String wd = files[w].getOriginalFilename().substring(com);
-					String fn_result = filenm+"_"+(w+1)+wd;
-					
-					if(w==0) {
-						ori += files[w].getOriginalFilename();
-						fake += fn_result;
-					}else {
-						ori += ","+files[w].getOriginalFilename();
-						fake += ","+fn_result;
-					}
-					
-					FileCopyUtils.copy(files[w].getBytes(),new File(url+fn_result));					
+		int w=0;
+		String filenm = new prd_imgsave().rename();
+		while(w<files.length) {
+			if(files[w].getSize() > 0) {
+				int com = files[w].getOriginalFilename().indexOf(".");
+				String wd = files[w].getOriginalFilename().substring(com);
+				String fn_result = filenm+"_"+(w+1)+wd;
+				
+				if(w==0) {
+					ori += files[w].getOriginalFilename();
+					fake += fn_result;
+				}else {
+					ori += ","+files[w].getOriginalFilename();
+					fake += ","+fn_result;
 				}
-				w++;
+				
+//				FileCopyUtils.copy(files[w].getBytes(),new File(url+fn_result));					
 			}
+			w++;
 		}
 		
 		arr_result.add(ori);
 		arr_result.add(fake);
 		
 		return arr_result;
+	}
+	
+	public ArrayList<String> file_modify(HttpServletRequest req,
+			String del_p_thumb_img[], String old_p_ori_img[],
+			String old_p_thumb_img[], MultipartFile files[]) throws Exception{
+		ArrayList<String> del_ti = new ArrayList<String>();
+		ArrayList<String> newimg = new ArrayList<String>();
+		ArrayList<String> ori_ti = new ArrayList<String>();
+		
+		int len = del_p_thumb_img.length; 
+		int w=0;
+		while(w<len) {
+			if(del_p_thumb_img[w] != "") {
+				del_ti.add(del_p_thumb_img[w]);
+			}
+			
+			if(old_p_ori_img[w] != "") {
+				newimg.add(old_p_ori_img[w]);
+			}
+			
+			if(old_p_thumb_img[w] != "") {
+				ori_ti.add(old_p_thumb_img[w]);
+			}else {
+				ori_ti.add("");
+			}
+			
+			if(files[w].getOriginalFilename() !="") {
+				newimg.add(files[w].getOriginalFilename());	
+			}
+			w++;
+		}
+
+		//새로 db에 저장할 파일명 string ,으로
+		int a=0;
+		String newimg_result="";
+		while(a<newimg.size()) {
+			if(a==0) {
+				newimg_result += newimg.get(a);
+			}else {
+				newimg_result += ","+newimg.get(a);
+			}
+			a++;
+		}
+		
+		int ot=0;
+		String orithumimg_result="";
+		ArrayList<String> newfile = this.prd_filesave(req, files);
+		int count=0;
+		
+//		while(ot<ori_ti.size()) {
+//			if(ori_ti.get(ot)=="") {
+//				ori_ti.set(ot,newfile.get(1).split(",")[count]);
+//				
+//				count++;
+//			}
+//			
+//			if(ot==0) {
+//				orithumimg_result += ori_ti.get(ot);
+//			}else {
+//				orithumimg_result += ","+ori_ti.get(ot);
+//			}
+//			ot++;
+//		}
+//		System.out.println(Arrays.asList(files));
+		System.out.println(orithumimg_result);
+		
+		//새로 업로드된 파일 random모듈 돌려서 db에 저장,실제파일 저장할거
+		
+		
+		ArrayList<String> real_result = new ArrayList<String>();
+		real_result.add(newimg_result);
+		
+		
+		real_result.add(newfile.get(1));
+
+		//real파일 삭제 모듈로 보낼거
+		int b=0;
+		String delfile_result="";
+		while(b<del_ti.size()) {
+			if(b==0) {
+				delfile_result += del_ti.get(b);
+			}else {
+				delfile_result += ","+del_ti.get(b);
+			}
+			b++;
+		}
+		
+		return real_result;
 	}
 	
 	public List<prd_dao> product_selectall(String adm_id) {
@@ -176,6 +263,24 @@ public class product_md{
 		all = tm2.selectList("shop.product_selectall",m);
 		
 		return all;
+	}
+	
+	public void prd_file_ck_del(HttpServletRequest req,String[] oneck) {
+		String wurl = req.getServletContext().getRealPath("/prdimg_upload/");
+		int w=0;
+		while(w<oneck.length) {
+			prd_dao selectdata = this.product_selectone(oneck[w]);
+			int ww=0;
+			while(ww<selectdata.getP_thumb_img().split(",").length) { 
+				String filenm = selectdata.getP_thumb_img().split(",")[ww];
+				File fe = new File(wurl+filenm);
+				fe.delete();
+				
+				ww++;
+			}
+			
+			w++;
+		}
 	}
 	
 	public int product_del(String[] prdck) {

@@ -138,11 +138,12 @@ public class prd_controller extends common_md{
 	
 	@PostMapping("/admin/prd_deleteok.do")
 	public void prd_deleteok(
-			String[] oneck,HttpServletResponse res
+			String[] oneck,HttpServletResponse res, HttpServletRequest req
 		) throws Exception{
 	    res.setContentType("text/html;charset=utf-8");
 	    
 	    try {
+	    	pm.prd_file_ck_del(req,oneck);	    	
 	        int callback = pm.product_del(oneck);
 	        if(callback > 0) {
 	        	this.golocation(res, "삭제 완료했습니다", "./product_list.do");
@@ -188,19 +189,17 @@ public class prd_controller extends common_md{
 	@PostMapping("/admin/prdmodify_ok.do")
 	public void prdmodify_ok(
 			HttpServletResponse res, HttpServletRequest req,
-			@RequestParam("files") MultipartFile files[],
+			String del_p_thumb_img[], String old_p_ori_img[], 
+			String old_p_thumb_img[], @RequestParam("files") MultipartFile files[],
 			@ModelAttribute("prdlist") prd_dao dao
 		) throws Exception {
 		res.setContentType("text/html; charset=UTF-8");
 		
 		try {
-//			int callback = pm.product_update(prddao);
-			ArrayList<String> filesave = pm.prd_filesave(req,files);
-			int callback = pm.prdlist_insert(dao,filesave,"update");
-			System.out.println(callback);
-			if(callback > 0) {
-				this.golocation(res, "상품 수정이 완료되었습니다", "./prd_list.do");
-			}
+			//일단 나중에 다시
+			ArrayList<String> result = pm.file_modify(req, del_p_thumb_img, old_p_ori_img,old_p_thumb_img, files);
+//			System.out.println(result);
+
 			
 		}catch(Exception e){
 			e.printStackTrace();

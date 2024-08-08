@@ -18,6 +18,7 @@
     <link rel="icon" href="./img/logo.png" sizes="32x32">
     <link rel="icon" href="./img/logo.png" sizes="16x16">
     
+    <script src="./js/jquery.js"></script>
     <script src="./js/common.js"></script>
     <script src="./js/product.js"></script>
 </head>
@@ -29,6 +30,21 @@
 		<input type="hidden" value="${adm_id}" name="adm_id">
 		<input type="hidden" value="Y" name="pd_ck">
 		<input type="hidden" value="${result.p_no}" name="p_no">
+		<!-- 삭제할 이미지 -->
+		<input type="hidden" data-no="0" name="del_p_thumb_img" value="">
+		<input type="hidden" data-no="1" name="del_p_thumb_img" value="">
+		<input type="hidden" data-no="2" name="del_p_thumb_img" value="">
+	
+		<!-- 그대로 함께갈 기존 이미지 - 실제웹경로에 저장되는 랜덤이름이미지 -->
+		<input type="hidden" data-no="0" name="old_p_thumb_img" value="">
+		<input type="hidden" data-no="1" name="old_p_thumb_img" value="">
+		<input type="hidden" data-no="2" name="old_p_thumb_img" value="">
+				
+		<!-- 그대로 함께갈 기존 이미지 - 사용자가 업로드한 이름의 이미지 -->
+		<input type="hidden" data-no="0" name="old_p_ori_img" value="${result.p_ori_img.split(',')[0]}">
+		<input type="hidden" data-no="1" name="old_p_ori_img" value="${result.p_ori_img.split(',')[1]}">
+		<input type="hidden" data-no="2" name="old_p_ori_img" value="${result.p_ori_img.split(',')[2]}">
+		
 		<section>
 		<p>상품 등록 페이지</p>
 		<div class="product_insert">
@@ -111,7 +127,8 @@
 		    <ul style="height: 160px;">
 		        <li>상품 대표이미지</li>
 		        <li>
-		        	<ol class="img_area" id="img_area">
+		        	<cr:set var="imglen" value="${fn:length(result.p_ori_img.split(','))}" />
+		        	<ol class="img_area" id="img_area" data-len="${imglen}">
 		        		<cr:forEach var="img" items="${result.p_thumb_img}" varStatus="no">
 		        			<cr:set var="imgtxtlen" value="${fn:length(result.p_ori_img.split(',')[no.index])}" />
 			        		<div data-no="${no.index}">
@@ -124,17 +141,17 @@
 			        		</div>
 		        		</cr:forEach>
 		        	</ol>
-		            <ol style="width:100%; height: auto;">
-			            <li style="width:100%; height:45px;">
-				            <input type="file" name="files" value="${result.p_ori_img.split(',')[0]}">
+		            <ol style="width:100%; height: auto;" id="file_area">
+			            <li style="width:100%; height:45px;" data-no="0">
+				            <input type="file" name="files">
 				            <span class="help_text">※ 상품 대표이미지 이며, 이미지 용량은 2MB 까지 입니다.</span>
 			            </li>
-			            <li style="height:45px;">
-				            <input type="file" name="files" value="${result.p_ori_img.split(',')[1]}">
+			            <li style="height:45px;" data-no="1">
+				            <input type="file" name="files">
 				            <span class="help_text">※ 추가 이미지 이며, 이미지 용량은 2MB 까지 입니다.</span>
 			            </li>
-			            <li style="height:45px;">
-				            <input type="file" name="files" value="${result.p_ori_img.split(',')[2]}">
+			            <li style="height:45px;"  data-no="2">
+				            <input type="file" name="files">
 				            <span class="help_text">※ 추가 이미지 이며, 이미지 용량은 2MB 까지 입니다.</span>
 			            </li>
 		            </ol>
