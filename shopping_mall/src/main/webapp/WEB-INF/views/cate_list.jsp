@@ -78,11 +78,14 @@
 	    <ul class="pageing">
 	        <li><img src="./ico/double_left.svg"></li>
 	        <li><img src="./ico/left.svg"></li>
-	        <cr:forEach var="dt" begin="1" end="${totalpg}">
+	        
+			<cr:set var="pg" value="${total/10+(1-((total/10)%1))%1}" />
+			<cr:forEach var="no" begin="1" end="${pg}" step="1">
 	        	<li>
-	        		<a style="color : #333" href="./cate_list.do?page=${dt}">${dt}</a>
+	        		<a style="color : #333" href="./cate_list.do?page=${no}">${no}</a>
 	        	</li>
-	        </cr:forEach>
+			</cr:forEach>
+
 	        <li><img src="./ico/right.svg"></li>
 	        <li><img src="./ico/double_right.svg"></li>
 	    </ul>

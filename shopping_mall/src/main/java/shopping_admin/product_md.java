@@ -27,45 +27,87 @@ public class product_md{
 		return result;
 	}
 	
-	public List<cate_dao> category_selectall(String adm_id,String part) {
+	public List<cate_dao> category_select_cate(String adm_id){
+		List<cate_dao> all = new ArrayList<cate_dao>();
+		all = tm2.selectList("shop.category_select_cate",adm_id);
+		
+		return all;
+	}
+	
+	public List<cate_dao> category_selectall(String adm_id,int startpg,int pageno) {
 		List<cate_dao> all = new ArrayList<cate_dao>();
 		
-	    Map<String, String> m = new HashMap<String, String>();
-	    m.put("search_select", part);
+		Map<String, Object> m = new HashMap<String, Object>();
 	    m.put("adm_id", adm_id);
+	    m.put("search_select", "0");
+	    m.put("startpg", startpg);
+	    m.put("pageno", pageno);
 	    
 		all = tm2.selectList("shop.category_selectall",m);
 		
 		return all;
 	}
 	
-	public List<cate_dao> category_selectall2(String adm_id,String search_select,String search_word) {
+	
+	public List<cate_dao> category_selectall2(String adm_id,String search_select,String search_word,int startpg,int pageno) {
 		List<cate_dao> all = new ArrayList<cate_dao>();
 
 	    //mapper에 인자값은 단 한개의 값만 적용할 수 있음 
-	    Map<String, String> m = new HashMap<String, String>();
+	    Map<String, Object> m = new HashMap<String, Object>();
 	    m.put("adm_id", adm_id);
 	    m.put("search_select", search_select);
 	    m.put("search_word", search_word);
-		
+	    m.put("startpg", startpg);
+	    m.put("pageno", pageno);
+
 		all = tm2.selectList("shop.category_selectall",m);
 		
 		return all;
 	}
 	
-	public int category_del(String[] cateck) {
-	    int result = 0;
+	public int category_del(String[] cateck,String adm_id) {
+		int result = 0;
+	    int count = 0;
 	    int w=0;
 	    while(w<cateck.length) {
-	        result += tm2.delete("shop.category_del",cateck[w]);	
+	    	cate_dao all = tm2.selectOne("shop.category_select_catename",cateck[w]);
+	    	int callback = this.category_del_prdck(adm_id,all.getCate_name());
+	    	count += callback;
+	    	
 	        w++;
+	    }
+	    
+	    if(count == 0) {
+	    	int i=0;
+	    	while(i<cateck.length) {
+	    		result += tm2.delete("shop.category_del",cateck[i]);
+	    		i++;
+	    	}
+	    }else {
+	    	result = -1;
 	    }
 
 	    return result;
 	}
 	
+	public int category_del_prdck(String adm_id,String cate_name) {
+	    Map<String, Object> m = new HashMap<String, Object>();
+	    m.put("adm_id", adm_id);
+	    m.put("cate_name", cate_name);
+		
+		int result =  tm2.selectOne("shop.category_del_prdck",m);
+		
+		return result;
+	}
+	
 	public cate_dao category_selectone(String no) {
 		cate_dao result = tm2.selectOne("shop.category_selectone",no);
+		
+		return result;
+	}
+	
+	public int category_selectcount(String adm_id) {
+		int result = tm2.selectOne("shop.category_selectcount",adm_id);
 		
 		return result;
 	}
@@ -141,7 +183,7 @@ public class product_md{
 					fake += ","+fn_result;
 				}
 				
-//				FileCopyUtils.copy(files[w].getBytes(),new File(url+fn_result));					
+				FileCopyUtils.copy(files[w].getBytes(),new File(url+fn_result));					
 			}
 			w++;
 		}
@@ -240,25 +282,29 @@ public class product_md{
 		return real_result;
 	}
 	
-	public List<prd_dao> product_selectall(String adm_id) {
+	public List<prd_dao> product_selectall(String adm_id,int startpg,int pageno) {
 		List<prd_dao> all = new ArrayList<prd_dao>();
 		
-	    Map<String, String> m = new HashMap<String, String>();
+	    Map<String, Object> m = new HashMap<String, Object>();
 	    m.put("adm_id", adm_id);
 	    m.put("search_select", "0");
+	    m.put("startpg", startpg);
+	    m.put("pageno", pageno);
 	    
 		all = tm2.selectList("shop.product_selectall",m);
 		
 		return all;
 	}
 	
-	public List<prd_dao> product_selectall2(String adm_id,String search_select,String search_word) {
+	public List<prd_dao> product_selectall2(String adm_id,String search_select,String search_word,int startpg,int pageno) {
 		List<prd_dao> all = new ArrayList<prd_dao>();
 
-	    Map<String, String> m = new HashMap<String, String>();
+	    Map<String, Object> m = new HashMap<String, Object>();
 	    m.put("adm_id", adm_id);
 	    m.put("search_select", search_select);
 	    m.put("search_word", search_word);
+	    m.put("startpg", startpg);
+	    m.put("pageno", pageno);
 		
 		all = tm2.selectList("shop.product_selectall",m);
 		
@@ -296,6 +342,12 @@ public class product_md{
 	
 	public prd_dao product_selectone(String no) {
 		prd_dao result = tm2.selectOne("shop.product_selectone",no);
+		
+		return result;
+	}
+	
+	public int product_selectcount(String adm_id) {
+		int result = tm2.selectOne("shop.product_selectcount",adm_id);
 		
 		return result;
 	}

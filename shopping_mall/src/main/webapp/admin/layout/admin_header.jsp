@@ -26,10 +26,10 @@ String adm_id = (String)hs.getAttribute("adm_id");
             <% 
             	} 
             %>
-            	<li title="쇼핑몰 회원관리">쇼핑몰 회원관리</li>
+            	<li title="쇼핑몰 회원관리"><a href='./shop_member_list.do'>쇼핑몰 회원관리</a></li>
 				<li title="쇼핑몰 상품관리"><a href='./product_list.do'>쇼핑몰 상품관리</a></li>
             	<li title="쇼핑몰 기본설정"><a href='./admin_siteinfo.do'>쇼핑몰 기본설정</a></li>
-            	<li title="쇼핑몰 공지사항관리"><a href='./admin_siteinfo.do'>쇼핑몰 공지사항관리</a></li>
+            	<li title="쇼핑몰 공지사항관리"><a href='./notice_list.do'>쇼핑몰 공지사항관리</a></li>
         	<%
             } 
             %>

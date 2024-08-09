@@ -26,36 +26,45 @@ import org.springframework.web.multipart.MultipartFile;
 public class prd_controller extends common_md{
 	@Resource(name = "prd_md") 
 	private product_md pm;
+	int pageno = 10;
 	
 	/*--- product list ---*/
 	@GetMapping("/admin/product_list.do")
 	public String product_list(
-			String page,HttpServletResponse res,HttpServletRequest req,Model m,
+			HttpServletResponse res,HttpServletRequest req,Model m,
+			@RequestParam(value="",required = false) Integer page,
 	        @RequestParam(defaultValue = "", required = false) String search_select,
 	        @RequestParam(defaultValue = "", required = false) String search_word
 			) throws Exception{
 		
 		res.setContentType("text/html; charset=UTF-8");
 		
+		int startpg = 0;
 		try {
 			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
+				int ctn = pm.product_selectcount(adm_id);
+				System.out.println(ctn);
+				m.addAttribute("total",ctn);
+				
+				if(page==null || page==1) { //Integer이어야 null 사용 가능
+					startpg = 0;
+				}else {
+					startpg = (page-1)*pageno;
+				}
+				m.addAttribute("startpg",startpg);
+				
 				List<prd_dao> result = null;
 				if(search_select.equals("") && search_word.equals("")) {
-					result = pm.product_selectall(adm_id);	
+					result = pm.product_selectall(adm_id,startpg,pageno);	
 				}else {
-					result = pm.product_selectall2(adm_id,search_select,search_word);
+					result = pm.product_selectall2(adm_id,search_select,search_word,startpg,pageno);
 		            m.addAttribute("search_select",search_select);
 		            m.addAttribute("search_word",search_word);
 				}
 				
-				float pageno = 3f; //한페이지당 5개씩 노출
-				int alldata= result.size();
-				int total_pg = (int)Math.ceil(alldata/pageno);   
-				
-				m.addAttribute("totalpg",total_pg);
 				m.addAttribute("result",result);
 			}
 		}catch(Exception e) {
@@ -76,7 +85,7 @@ public class prd_controller extends common_md{
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
-				List<cate_dao> result = pm.category_selectall(adm_id,"4");
+				List<cate_dao> result = pm.category_select_cate(adm_id);
 				m.addAttribute("catelist",result);	
 				m.addAttribute("adm_id",adm_id);
 			}
@@ -171,7 +180,7 @@ public class prd_controller extends common_md{
 			if(adm_id == null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인해주세요.","./index.jsp");
 			}else {
-				List<cate_dao> result = pm.category_selectall(adm_id,"4");
+				List<cate_dao> result = pm.category_select_cate(adm_id);
 				m.addAttribute("catelist",result);	
 				m.addAttribute("adm_id",adm_id);
 				
@@ -212,34 +221,43 @@ public class prd_controller extends common_md{
 	
 	@GetMapping("/admin/cate_list.do")
 	public String cate_list(
-			String page,HttpServletResponse res,HttpServletRequest req,Model m,
+			HttpServletResponse res,HttpServletRequest req,Model m,
+			@RequestParam(value="",required = false) Integer page,
 	        @RequestParam(defaultValue = "", required = false) String search_select,
 	        @RequestParam(defaultValue = "", required = false) String search_word
 			) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		
+		int startpg = 0;
 		try {
 			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
+				int ctn = pm.category_selectcount(adm_id);
+				m.addAttribute("total",ctn);
+				
+				if(page==null || page==1) { //Integer이어야 null 사용 가능
+					startpg = 0;
+				}else {
+					startpg = (page-1)*pageno;
+				}
+				m.addAttribute("startpg",startpg);
+				
 				List<cate_dao> result = null;
 				if(search_select.equals("") && search_word.equals("")) {
-					result = pm.category_selectall(adm_id,"0");	
+					result = pm.category_selectall(adm_id,startpg,pageno);	
 				}else {
-					result = pm.category_selectall2(adm_id,search_select,search_word);	
+					result = pm.category_selectall2(adm_id,search_select,search_word,startpg,pageno);
+					
 		            m.addAttribute("search_select",search_select);
 		            m.addAttribute("search_word",search_word);
 				}
 				
-				float pageno = 3f; //한페이지당 5개씩 노출
-				int alldata= result.size();
-				int total_pg = (int)Math.ceil(alldata/pageno);   
-				
-				m.addAttribute("totalpg",total_pg);
 				m.addAttribute("result",result);
 			}
 		}catch(Exception e) {
+			System.out.println(e);
 			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");	
 		}
 		return "/cate_list";
@@ -292,22 +310,31 @@ public class prd_controller extends common_md{
 	
 	@PostMapping("/admin/cate_deleteok.do")
 	public void cate_deleteok(
-			String[] oneck,HttpServletResponse res
+			String[] oneck,HttpServletResponse res,HttpServletRequest req,
+			@ModelAttribute("cate") cate_dao catedao
 		) throws Exception{
 	    res.setContentType("text/html;charset=utf-8");
 	    
 	    try {
-	        int callback = pm.category_del(oneck);
-	        if(callback > 0) {
-	        	this.golocation(res, "삭제 완료했습니다", "./cate_list.do");
-	        }else {
-	        	this.golocation(res, "데이터 오류로 인해 삭제 실패했습니다", "./cate_list.do");
-	        }
-	    }catch(DataIntegrityViolationException e) {
-	    	this.golocation(res,"카테고리에 속한 상품이 모두 변경 또는 삭제 되었을 경우만 삭제 가능합니다.","./cate_list.do");
+	    	String adm_id = this.getsession(req);
+			if(adm_id == null) {
+				this.golocation(res,"쇼핑몰 관리자로 로그인해주세요.","./index.jsp");
+			}else {
+				int callback = pm.category_del(oneck,adm_id);
+				
+				if(callback > 0) {
+					this.golocation(res, "삭제 완료했습니다", "./cate_list.do");
+				}else {
+					if(callback==-1) {
+						this.golocation(res,"카테고리에 속한 상품이 모두 변경 또는 삭제 되었을 경우만 삭제 가능합니다. 확인 후 삭제해주세요.","./cate_list.do");
+					}else {
+						this.golocation(res, "데이터 오류로 인해 삭제 실패했습니다", "./cate_list.do");						
+					}
+				}
+			}
 	    }catch(Exception e) {
 	    	System.out.println(e);
-	    	this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
+//	    	this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
 	    }
 	}
 	
@@ -351,7 +378,8 @@ public class prd_controller extends common_md{
 			}
 			
 		}catch(DataIntegrityViolationException e2) {
-			this.gohistory(res,"해당 대메뉴 코드에 동일한 대메뉴 코드및 이름이 존재합니다.");
+			e2.printStackTrace();
+			this.gohistory(res,"해당 대메뉴 코드에 동일한 대메뉴 코드및 이름이 존재합니다.123");
 		}catch(Exception e){
 			System.out.println(e);
 			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");

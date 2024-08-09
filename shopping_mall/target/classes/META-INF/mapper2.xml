@@ -81,6 +81,10 @@
 	    values ('0',#{adm_id},#{group_code},#{cate_code},#{cate_name},#{cate_use},now())
 	</insert>
 	
+	<select id="category_selectcount" parameterType="Map" resultType="int">
+		select count(*) as ctn from cate_list where adm_id=#{adm_id};
+	</select>
+	
 	<select id="category_selectall" resultType="catedao"  parameterType="Map"> 
 		select * from cate_list
 		<where>
@@ -96,16 +100,25 @@
 			<if test="search_select==3">
 				adm_id=#{adm_id} and cate_name like CONCAT('%',#{search_word},'%')    
 			</if>
-		    <if test="search_select==4">
-		        adm_id=#{adm_id} and cate_use='Y' 
-		    </if>
 		</where>
-		order by c_no desc;
+		order by c_no desc limit ${startpg},${pageno};
+	</select>
+	
+	<select id="category_select_cate" resultType="catedao">
+		select * from cate_list where adm_id=#{adm_id} and cate_use='Y' order by c_no desc;
+	</select>
+	
+	<select id="category_select_catename" resultType="catedao">
+	    select cate_name from cate_list where c_no=#{c_no} order by c_no desc;
 	</select>
 	
 	<delete id="category_del">
 	    delete from cate_list where c_no=#{c_no} order by c_no desc;
 	</delete>
+	
+	<select id="category_del_prdck" parameterType="Map" resultType="int">
+		select count(*) as ctn from prd_list where adm_id=#{adm_id} and cate_name=#{cate_name} order by p_no desc;
+	</select>
 	
 	<select id="category_selectone" parameterType="Map" resultType="catedao">
    		select * from cate_list where c_no=#{c_no} order by c_no desc
@@ -120,6 +133,10 @@
 	    insert into prd_list (p_no,adm_id,cate_name,p_code,p_name,p_summary,p_price,p_dc_percent,p_dc_money,p_stock,p_use,p_soldout,p_ori_img,p_thumb_img,p_desc,p_indate) 
 	    values ('0',#{adm_id},#{cate_name},#{p_code},#{p_name},#{p_summary},#{p_price},#{p_dc_percent},#{p_dc_money},#{p_stock},#{p_use},#{p_soldout},#{p_ori_img},#{p_thumb_img},#{p_desc},now())
 	</insert>
+	
+	<select id="product_selectcount" parameterType="Map" resultType="int">
+		select count(*) as ctn from prd_list where adm_id=#{adm_id};
+	</select>
 	
 	<select id="prdlist_select_idpcode" parameterType="Map" resultType="int">
    		select count(*) as ctn from prd_list where adm_id=#{adm_id} and p_code=#{p_code} order by p_no desc;
@@ -138,7 +155,7 @@
 				adm_id=#{adm_id} and p_code like CONCAT('%',#{search_word},'%')   
 			</if>
 		</where>
-		order by p_no desc;
+		order by p_no asc limit ${startpg},${pageno};
 	</select>
 	
 	<delete id="product_del">

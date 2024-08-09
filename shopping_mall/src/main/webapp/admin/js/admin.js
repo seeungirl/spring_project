@@ -161,6 +161,14 @@ function siteinfo_submit(e){
 	return isValid;
 }
 
+function go_noticewrite(){
+	location.href = "./notice_write.do";	
+}
+
+function go_noticelist(){
+	location.href = "./notice_list.do";	
+}
+
 
 
 
