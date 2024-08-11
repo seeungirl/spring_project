@@ -175,5 +175,12 @@
 	    p_soldout=#{p_soldout},p_ori_img=#{p_ori_img},
 	    p_thumb_img=#{p_thumb_img},p_desc=#{p_desc} where p_no=#{p_no};
 	</update>
+	
+	<!-- notice -->
+	<insert id="notice_insert" parameterType="Map" >
+	    insert into notice_list 
+	    (n_no,n_fixed,n_subject,adm_id,n_ori_img,n_save_img,n_contents,n_indate)
+	    values ('0',#{n_fixed},#{n_subject},#{adm_id},#{n_ori_img},#{n_save_img},#{n_contents},now())
+	</insert>
 
 </mapper>

@@ -77,7 +77,7 @@ public class adm_controller extends common_md{
 			adminlist_dao callback = al_m.admlist_login(dao); 
 			String message = "";
 			
-			if(callback.getAdm_aprove().equals("Y")==true) {
+			if(callback.getAdm_aprove().equals("Y")==true) { 
 				this.session.setAttribute("adm_id", callback.getAdm_id());
 				this.session.setMaxInactiveInterval(1800);
 				message = dao.getAdm_id()+"님 환영합니다.";
@@ -257,7 +257,7 @@ public class adm_controller extends common_md{
 
 	}
 	
-	/*--- hop_member_list ---*/
+	/*--- shop_member_list ---*/
 	@GetMapping("/admin/shop_member_list.do")
 	public String shop_member_list(HttpServletResponse res,HttpServletRequest req) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
@@ -273,42 +273,6 @@ public class adm_controller extends common_md{
 		}
 	
 		return "/shop_member_list";
-	}
-	
-	/*--- notice_list ---*/
-	@GetMapping("/admin/notice_list.do")
-	public String notice_list(HttpServletResponse res,HttpServletRequest req) throws Exception{
-		res.setContentType("text/html; charset=UTF-8");
-		try {
-			String adm_id = this.getsession(req);
-			if(adm_id==null) {
-				this.golocation(res,"로그인 해주세요.","./index.jsp");				
-			}else {
-				
-			}
-		}catch(Exception e) {
-			this.golocation(res,"잘못된 접근입니다.","./index.jsp");
-		}
-	
-		return "/notice_list";
-	}
-	
-	/*--- hop_member_list ---*/
-	@GetMapping("/admin/notice_write.do")
-	public String notice_write(HttpServletResponse res,HttpServletRequest req) throws Exception{
-		res.setContentType("text/html; charset=UTF-8");
-		try {
-			String adm_id = this.getsession(req);
-			if(adm_id==null) {
-				this.golocation(res,"로그인 해주세요.","./index.jsp");				
-			}else {
-				
-			}
-		}catch(Exception e) {
-			this.golocation(res,"잘못된 접근입니다.","./index.jsp");
-		}
-	
-		return "/notice_write";
 	}
 	
 }
