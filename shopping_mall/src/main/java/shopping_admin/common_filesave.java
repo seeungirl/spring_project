@@ -3,7 +3,7 @@ package shopping_admin;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class prd_imgsave {
+public class common_filesave {
 	//파일명 생성 (random함수 이용)
 	public String rename() {
 		Date day = new Date();

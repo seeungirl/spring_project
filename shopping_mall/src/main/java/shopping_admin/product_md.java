@@ -168,7 +168,7 @@ public class product_md{
 		String fake = "";
 		
 		int w=0;
-		String filenm = new prd_imgsave().rename();
+		String filenm = new common_filesave().rename();
 		while(w<files.length) {
 			if(files[w].getSize() > 0) {
 				int com = files[w].getOriginalFilename().indexOf(".");

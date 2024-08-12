@@ -18,6 +18,7 @@
 	<resources mapping="/css/*.css" location="/css/" />
 	<resources mapping="/pay/**" location="/pay/" />
 	<resources mapping="/prdimg_upload/**" location="/prdimg_upload/" />
+	<resources mapping="/noti_file_upload/**" location="/noti_file_upload/" />
 	<resources mapping="/admin/**" location="/admin/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->

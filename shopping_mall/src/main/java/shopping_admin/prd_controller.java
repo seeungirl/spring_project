@@ -46,7 +46,6 @@ public class prd_controller extends common_md{
 				this.golocation(res,"쇼핑몰 관리자로 로그인 해주세요.","./admin_main.do");
 			}else {
 				int ctn = pm.product_selectcount(adm_id);
-				System.out.println(ctn);
 				m.addAttribute("total",ctn);
 				
 				if(page==null || page==1) { //Integer이어야 null 사용 가능

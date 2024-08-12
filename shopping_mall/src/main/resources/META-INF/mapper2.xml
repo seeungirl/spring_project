@@ -179,8 +179,31 @@
 	<!-- notice -->
 	<insert id="notice_insert" parameterType="Map" >
 	    insert into notice_list 
-	    (n_no,n_fixed,n_subject,adm_id,n_ori_img,n_save_img,n_contents,n_indate)
-	    values ('0',#{n_fixed},#{n_subject},#{adm_id},#{n_ori_img},#{n_save_img},#{n_contents},now())
+	    (n_no,n_fixed,n_subject,adm_id,n_ori_img,n_save_img,n_contents,n_viewcount,n_indate) 
+	    values ('0',#{n_fixed},#{n_subject},#{adm_id},#{n_ori_img},#{n_save_img},#{n_contents},#{n_viewcount},now())
 	</insert>
-
+	
+	<select id="notice_selectcount" parameterType="Map" resultType="int">
+		select count(*) as ctn from notice_list where 
+		<choose>
+			<when test="part==1">
+				adm_id=#{adm_id}
+			</when>
+			<when test="part==2">
+				adm_id=#{adm_id} and n_fixed=#{n_fixed}
+			</when>
+		</choose>
+	</select>
+	
+	<select id="notice_selectall" resultType="notidao"  parameterType="Map"> 
+		select * from notice_list where adm_id=#{adm_id} order by n_fixed asc,n_no desc limit ${startpg},${pageno};
+	</select>
+	
+	<select id="notice_selectone" parameterType="Map" resultType="notidao">
+   		select * from notice_list where n_no=#{n_no} order by n_no desc
+	</select>
+	
+	<delete id="notice_del">
+	    delete from notice_list where n_no=#{n_no} order by n_no desc;
+	</delete>
 </mapper>

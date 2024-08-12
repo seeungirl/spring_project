@@ -106,7 +106,7 @@
 
 <script>
 cateprd_sc_ck();
-cateprd_del_ck();
+del_ckbox_all();
 </script>
 
 </html>

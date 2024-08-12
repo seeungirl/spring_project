@@ -24,7 +24,7 @@
 <body>
 <%@ include file="/admin/layout/admin_header.jsp" %>​
 <main class="maincss">
-<form id="noti_write_frm">
+<form id="noti_write_frm" enctype="multipart/form-data">
 	<section>
 	    <p>공지사항 등록페이지</p>
 		<div class="write_view">
@@ -49,7 +49,7 @@
 			<ul>
 			    <li>첨부파일</li>
 			    <li>
-			        <input type="file" name="nfile"> ※ 첨부파일 최대 용량은 2MB 입니다.       
+			        <input type="file" name="nfile" multiple="multiple" onchange="addFile(this)"> ※ 첨부파일 최대 용량은 2MB 입니다.       
 			    </li>
 			</ul>
 			<ul class="ul_height">
@@ -61,7 +61,7 @@
 		</div>
 		<div class="board_btn">
 		    <button class="border_del" onclick="go_noticelist()">공지목록</button>
-		    <button class="border_add" onclick="notiwrite_submit()">공지등록</button>
+		    <input type="button" value="공지등록" class="border_add" onclick="notiwrite_submit()">
 		</div>
 	</section>
 </form>

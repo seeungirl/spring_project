@@ -47,3 +47,35 @@ function radioset(){
 		w++;
 	}
 }
+
+var sum=0;
+function del_ckbox_all(){
+	var allck = document.getElementById("allck");
+	var ck = document.getElementsByName("oneck");
+	allck.addEventListener("click",function(){
+		var cked = this.checked;
+		var w=0;
+		while(w<ck.length){
+			ck[w].checked = cked;
+			w++;
+		}
+	});
+
+	var ww=0;
+	while(ww<ck.length){
+		ck[ww].addEventListener("click",function(){
+			if(this.checked == true){
+				sum++;
+			}else{
+				sum--;
+			}
+			
+			if(sum == ck.length){
+				allck.checked=true;
+			}else{
+				allck.checked=false;
+			}
+		})
+		ww++;
+	}
+}
