@@ -161,4 +161,35 @@ public class notice_md {
 	    return result;
 	}
 	
+	public int notice_update(notice_dao dao,ArrayList<String> filesave,String action) {
+		Map<String, Object> kc = new HashMap<String, Object>();
+		kc.put("n_no", dao.getN_no());
+		kc.put("n_fixed", dao.getN_fixed());
+		kc.put("n_subject", dao.getN_subject());
+		kc.put("adm_id", dao.getAdm_id());
+		kc.put("n_contents", dao.getN_contents());
+		
+		if(action=="nochange") {
+			kc.put("part", 1);
+		}else {
+			kc.put("part", 2);
+			kc.put("n_ori_img", filesave.get(0));
+			kc.put("n_save_img", filesave.get(1));
+		}
+		int result = tm2.insert("shop.notice_update",kc);
+		
+		return result;
+	}
+	
+	public int notice_update_count(int count,String no) {
+		count=count+1;
+		Map<String, Object> kc = new HashMap<String, Object>();
+		kc.put("n_viewcount", count);
+		kc.put("n_no", no);
+		
+		int result = tm2.update("shop.notice_update_count",kc);
+		
+		return result;
+	}
+	
 }

@@ -114,6 +114,8 @@
     text-align: center;
     cursor: pointer;
 }
+
+.subpage_view3 > .pageing > li.selected a{background-color : rgb(132, 6, 6); color :#fff !important;}
 .subpage_view3 > .pageing > li:has(img) {padding-top : 4px;}
 .subpage_view3 > .pageing > li:last-of-type{
     border-left: 1px solid rgb(81, 61, 61);

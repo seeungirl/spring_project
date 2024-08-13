@@ -61,7 +61,7 @@
 		</div>
 		<div class="board_btn">
 		    <button class="border_del" onclick="go_noticelist()">공지목록</button>
-		    <input type="button" value="공지등록" class="border_add" onclick="notiwrite_submit()">
+		    <input type="button" value="공지등록" class="border_add" onclick="notiwrite_submit('write')">
 		</div>
 	</section>
 </form>
@@ -70,14 +70,7 @@
 </body>
 
 <script type="text/javascript">
-	//window.onload : 해당 웹페이지 실행시 즉시 발동시키는 함수
-	window.onload = function(){ 
-		//API로드방법
-		var c = CKEDITOR.replace("editor",{ //들어갈 textarea id 입력
-			width : 900,
-			height : 400
-		})
-	}
+ckload();
 </script>
 
 </html>

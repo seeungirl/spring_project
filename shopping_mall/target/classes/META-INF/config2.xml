@@ -9,5 +9,7 @@
 		<typeAlias alias="catedao" type="shopping_admin.cate_dao"/>
 		<typeAlias alias="prddao" type="shopping_admin.prd_dao"/>
 		<typeAlias alias="notidao" type="shopping_admin.notice_dao"/>
+		
+<!-- 		<typeAlias alias="memberdao" type="shopping_shop.member_dao"/> -->
 	</typeAliases>
 </configuration>

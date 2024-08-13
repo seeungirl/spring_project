@@ -70,10 +70,12 @@
 	        <ul class="pageing">
 	            <li><img src="./ico/double_left.svg"></li>
 	            <li><img src="./ico/left.svg"></li>
+	            <li><a style="color : #333" href="./notice_list.do?page=1">1</a></li>
 	            <cr:set var="pg" value="${total/10+(1-((total/10)%1))%1}" />
-	            <cr:forEach var="no" begin="1" end="${pg}" step="1">
+	            <cr:forEach var="no" begin="2" end="${pg}" step="1">
 	            	<li><a style="color : #333" href="./notice_list.do?page=${no}">${no}</a></li>
 	            </cr:forEach>
+	            
 	            <li><img src="./ico/right.svg"></li>
 	            <li><img src="./ico/double_right.svg"></li>
 	        </ul>
@@ -84,6 +86,7 @@
 <%@ include file="/admin/layout/footer.jsp" %>​
 </body>
 <script>
+pagingck();
 del_ckbox_all();
 </script>
 

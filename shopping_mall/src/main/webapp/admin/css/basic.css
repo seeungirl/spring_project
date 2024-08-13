@@ -4,7 +4,7 @@ fieldset,img {border:0 none}
 dl,ul,ol,menu,li {list-style:none}
 blockquote, q {quotes: none}
 blockquote:before, blockquote:after,q:before, q:after {content:'';content:none}
-input,select,textarea,button {vertical-align:middle}
+input,select,textarea,button {vertical-align:middle;}
 input:focus, button:focus, textarea:focus {outline:none;}
 button {border:0 none;background-color:transparent;cursor:pointer}
 body {background:#fff;-webkit-text-size-adjust:none; position: relative;}

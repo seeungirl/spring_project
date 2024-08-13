@@ -120,6 +120,8 @@ ol > li:nth-of-type(2) .notice {
     text-align: center;
     cursor: pointer;
 }
+.border_page > .pageing > li.selected a{background-color : rgb(132, 6, 6); color :#fff !important;}
+
 .border_page > .pageing > li:has(img) {padding-top : 4px;}
 .border_page > .pageing > li:last-of-type{
     border-left: 1px solid rgb(81, 61, 61);
@@ -174,7 +176,19 @@ ol > li:nth-of-type(2) .notice {
     margin-right: 10px;
 }
 
+.write_view > ul > li:nth-of-type(2) #fake_file {
+	border: 1px solid #777;
+    padding: 0px 7px 2px 7px;
+    border-radius: 3px;
+}
+
 .write_view > ul > li:nth-of-type(2) > span {display : inline-block; }
+.write_view > ul > li:nth-of-type(2) > #selected_filename {
+	width : 160px;
+    overflow: hidden;
+    border : 0; padding : 0 10px;
+    text-overflow: ellipsis;
+}
 .write_view > ul > li:nth-of-type(2) > span + span {padding-left : 5px;}
 .write_view > ul > li:nth-of-type(2) > span a {color : #333; text-decoration : underline;}
 .cbox { 

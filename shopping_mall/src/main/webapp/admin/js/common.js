@@ -48,6 +48,24 @@ function radioset(){
 	}
 }
 
+//사이트 정보 저장 페이지 체크박스 불러오기
+function ckboxset(){
+	var ckbox = document.querySelectorAll("input[type='checkbox']");
+	
+	var w=0;
+	while(w<ckbox.length){
+		if(ckbox[w].value == "N"){
+			ckbox[w].checked=false;
+		}else{
+			ckbox[w].checked=true;
+		}
+		
+		
+		w++;
+	}
+}
+
+
 var sum=0;
 function del_ckbox_all(){
 	var allck = document.getElementById("allck");
@@ -77,5 +95,22 @@ function del_ckbox_all(){
 			}
 		})
 		ww++;
+	}
+}
+
+function pagingck(){
+	const urlParams = new URL(location.href).searchParams;
+	const page = urlParams.get('page');
+	if(page != null){
+		var paging_each = document.querySelectorAll(".pageing li:has(a)");
+		var pagingli = document.querySelectorAll(".pageing li a");
+		var w=0;
+		while(w<paging_each.length){
+			if(page == pagingli[w].innerText){
+				paging_each[w].classList.add("selected");			
+			}
+			w++;
+		}
+		
 	}
 }

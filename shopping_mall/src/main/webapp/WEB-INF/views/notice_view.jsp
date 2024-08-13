@@ -44,14 +44,16 @@
 				    <li>글쓴이</li>
 				    <li>${result.adm_id}</li>
 				</ul>
-				<ul>
-				    <li>첨부파일</li>
-				    <li>
-				       <cr:forEach var="file" items="${result.n_ori_img.split(',')}" varStatus="no">
-				       		<span><a href="../noti_file_upload/${result.n_save_img.split(",")[no.index]}">${file}</a></span>
-				       </cr:forEach>
-				    </li>
-				</ul>
+				<cr:if test="${result.n_ori_img != ''}">
+					<ul>
+					    <li>첨부파일</li>
+					    <li>
+						       <cr:forEach var="file" items="${result.n_ori_img.split(',')}" varStatus="no">
+						       		<span><a href="../noti_file_upload/${result.n_save_img.split(",")[no.index]}">${file}</a></span>
+						       </cr:forEach>
+					    </li>
+					</ul>
+		       </cr:if>
 				<ul class="ul_height">
 				    <li>공지내용</li>
 				    <li>
@@ -63,7 +65,7 @@
 			</div>
 			<div class="board_btn">
 			    <input type="button" class="border_del" onclick="go_noticelist()" value="공지목록">
-			    <button class="border_add">공지수정</button>
+			    <input type="button" class="border_add" onclick="go_noticemodify('${result.n_no}')" value="공지수정">
 			    <button class="border_modify" onclick="notice_delete('view')" style="margin-left: 8px;">공지삭제</button>
 			</div>
 		</section>

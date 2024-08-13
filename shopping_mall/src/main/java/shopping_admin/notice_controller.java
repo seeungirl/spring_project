@@ -6,6 +6,7 @@ import java.util.List;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -125,15 +126,73 @@ public class notice_controller extends common_md{
 	}
 	
 	@GetMapping("/admin/notice_view.do")
-	public String notice_view(String no,Model m) {
+	public String notice_view(String no,Model m, HttpServletRequest req) {
 		try {
 			notice_dao callback = nm.notice_selectone(no);
 			m.addAttribute("result",callback);
+			HttpSession session = req.getSession();
 			
+			String ss_noticount = (String)session.getAttribute("noti_count_"+no);
+			if(ss_noticount == null) {
+				session.setAttribute("noti_count_"+no , "1");
+				session.setMaxInactiveInterval(1800);
+				
+				notice_dao result = nm.notice_selectone(no);
+				int count = result.getN_viewcount();
+				int count_cb = nm.notice_update_count(count, no);
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+		}
+		
+		return "/notice_view";
+	}
+	
+	@GetMapping("/admin/notice_modify.do")
+	public String notice_modify(String no,Model m) {
+		try {
+			notice_dao callback = nm.notice_selectone(no);
+			m.addAttribute("result",callback);
 		}catch(Exception e) {
 			
 		}
 		
-		return "/notice_view";
+		return "/notice_modify";
+	}
+	
+	@PostMapping("/admin/notice_modifyok.do")
+	public void notice_modifyok(
+			String n_old_ori, String selected_filename,String n_no[],
+			HttpServletRequest req, HttpServletResponse res,
+			@ModelAttribute("notilist") notice_dao dao,
+			@RequestParam("nfile") MultipartFile files[]
+			) throws Exception{
+		res.setContentType("text/html;charset=utf-8");
+		try {
+			if(dao.getN_fixed() == null) {
+				dao.setN_fixed("N");
+			}else {
+				dao.setN_fixed("Y");
+			}
+			
+			ArrayList<String> filesave = null;
+			int callback = 0;
+			if(n_old_ori.equals(selected_filename)) { //첨부파일 변경없이 그대로 가는 경우
+				callback = nm.notice_update(dao,filesave,"nochange");
+			}else {
+				nm.prd_file_ck_del(req,n_no);
+				filesave = nm.noti_filesave(req,files);
+				callback = nm.notice_update(dao,filesave,"change");
+			}
+			
+			if(callback > 0) {
+				this.golocation(res, "수정이 완료되었습니다", "./notice_view.do?no="+dao.getN_no());
+			}else {
+				this.golocation(res, "데이터 오류로 수정에 실패했습니다. 다시 시도해주세요.", "./notice_view.do?no="+dao.getN_no());
+			}
+		}catch(Exception e) {
+			System.out.println(e);
+			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
+		}
 	}
 }

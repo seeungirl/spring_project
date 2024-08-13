@@ -206,4 +206,21 @@
 	<delete id="notice_del">
 	    delete from notice_list where n_no=#{n_no} order by n_no desc;
 	</delete>
+	
+	<update id="notice_update" parameterType="Map"> 
+	    update notice_list set 
+   		<choose>
+			<when test="part==1">
+				n_fixed=#{n_fixed},n_subject=#{n_subject},n_contents=#{n_contents} 
+			</when>
+			<when test="part==2">
+				n_fixed=#{n_fixed},n_subject=#{n_subject},n_ori_img=#{n_ori_img},n_save_img=#{n_save_img},n_contents=#{n_contents} 
+			</when>
+		</choose> 
+	     where n_no=#{n_no}
+	</update>
+	
+	<update id="notice_update_count" parameterType="Map"> 
+	    update notice_list set n_viewcount=#{n_viewcount} where n_no=#{n_no}
+	</update>
 </mapper>
