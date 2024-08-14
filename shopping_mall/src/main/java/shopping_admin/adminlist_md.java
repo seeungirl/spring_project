@@ -142,5 +142,30 @@ public class adminlist_md {
 		int u3 = tm2.update("shop.setinfo_mp_update",mpdao);
 		return u3;
 	}
+	
+	public term_dao select_term(String adm_id) {
+		term_dao result = tm2.selectOne("shop.select_term",adm_id);
+		
+		return result;
+	}
+	
+	public int select_term_id(String adm_id) {
+		int result = tm2.selectOne("shop.select_term_id",adm_id);
+		
+		return result;
+	}
+	
+	public int term_godata(term_dao termdao, int callback) {		
+		int result = 0;
+		if(callback > 0) {
+			result = tm2.update("shop.term_update",termdao);
+		}else {
+			result = tm2.insert("shop.term_insert",termdao);
+		}
+		
+		return result;
+	}
+	
+	
 
 }

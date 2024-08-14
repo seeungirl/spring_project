@@ -259,20 +259,51 @@ public class adm_controller extends common_md{
 	
 	/*--- shop_member_list ---*/
 	@GetMapping("/admin/shop_member_list.do")
-	public String shop_member_list(HttpServletResponse res,HttpServletRequest req) throws Exception{
+	public String shop_member_list(
+			HttpServletResponse res,HttpServletRequest req,
+			@ModelAttribute("termdao") term_dao termdao, Model m
+			) throws Exception{
 		res.setContentType("text/html; charset=UTF-8");
 		try {
 			String adm_id = this.getsession(req);
 			if(adm_id==null) {
 				this.golocation(res,"로그인 해주세요.","./index.jsp");				
 			}else {
-				
+				term_dao result = al_m.select_term(adm_id);
+				m.addAttribute("term",result);
 			}
 		}catch(Exception e) {
-			this.golocation(res,"잘못된 접근입니다.","./index.jsp");
+			this.golocation(res,"잘못된 접근입니다.","./shop_member_list.do");
 		}
 	
 		return "/shop_member_list";
+	}
+	
+	@PostMapping("/admin/term_insertok.do")
+	public void term_insertok(
+			HttpServletResponse res,HttpServletRequest req,
+			@ModelAttribute("termdao") term_dao termdao,String name
+			) throws Exception {
+		res.setContentType("text/html; charset=UTF-8");
+		try {
+			String adm_id = this.getsession(req);
+			if(adm_id==null) {
+				this.golocation(res,"로그인 해주세요.","./index.jsp");
+			}else {
+				termdao.setAdm_id(adm_id);
+				int callback = al_m.select_term_id(adm_id);
+				int result = al_m.term_godata(termdao,callback);
+				if(result > 0) {
+					this.golocation(res,"저장이 완료되었습니다.","./shop_member_list.do");
+				}else {
+					this.golocation(res,"데이터 오류로 저장에 실패했습니다. 다시 시도해주세요.","./admin_main.do");
+				}
+			}
+		}catch(Exception e) {
+			this.golocation(res,"잘못된 접근입니다.","./shop_member_list.do");
+			e.printStackTrace();
+		}
+		
 	}
 	
 }

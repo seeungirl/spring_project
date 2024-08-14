@@ -176,7 +176,7 @@ public class notice_md {
 			kc.put("n_ori_img", filesave.get(0));
 			kc.put("n_save_img", filesave.get(1));
 		}
-		int result = tm2.insert("shop.notice_update",kc);
+		int result = tm2.update("shop.notice_update",kc);
 		
 		return result;
 	}

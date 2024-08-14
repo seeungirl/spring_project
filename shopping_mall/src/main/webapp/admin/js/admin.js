@@ -161,6 +161,11 @@ function siteinfo_submit(e){
 	return isValid;
 }
 
+function term_submit(){
+	term_frm.method="post";
+	term_frm.action = "./term_insertok.do";
+	term_frm.submit();
+}
 
 
 

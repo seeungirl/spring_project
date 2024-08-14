@@ -223,4 +223,23 @@
 	<update id="notice_update_count" parameterType="Map"> 
 	    update notice_list set n_viewcount=#{n_viewcount} where n_no=#{n_no}
 	</update>
+	
+	<!-- 이용약관 -->
+	<select id="select_term" resultType="termdao">
+		select * from term_shop where adm_id=#{adm_id}
+	</select>
+	
+	<select id="select_term_id" resultType="int">
+		select count(*) as ctn from term_shop where adm_id=#{adm_id}
+	</select>
+	
+	<insert id="term_insert" parameterType="Map">
+	    insert into term_shop (t_no,adm_id,term_use,term_pinfo,t_indate) values 
+      	('0',#{adm_id},#{term_use},#{term_pinfo},now());
+	</insert>
+	
+	<update id="term_update" parameterType="Map">
+	    update term_shop set term_use=#{term_use},term_pinfo=#{term_pinfo},t_indate=now() where adm_id=#{adm_id}
+	</update>
+	
 </mapper>
