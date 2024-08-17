@@ -34,7 +34,8 @@
 			<ul class="info_form">
 			    <li>홈페이지 제목</li>
 			    <li>
-			        <input type="text" value="${mj.ms_mallname}" class="in_form1" id="" name="ms_mallname" data-rq="true"> 
+			        <input type="text" value="${mj.ms_mallname}" class="in_form1" id="" name="ms_mallname" data-rq="true">
+			        ※ 실제 쇼핑몰에 접속 시 사용되는 항목입니다. ex) test 입력시 test/login.do
 			    </li>
 			</ul>    
 			<ul class="info_form">

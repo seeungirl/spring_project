@@ -6,8 +6,10 @@
   <head>
     <title>Shop Bag</title>
     <meta charset="utf-8" />
-    <link href="./css/index.css" rel="stylesheet" />
-    <link href="./css/subpage.css" rel="stylesheet" />
+    <link href="/shop/css/index.css" rel="stylesheet" />
+    <link href="/shop/css/subpage.css" rel="stylesheet" />
+    
+    <script src="/shop/js/shop.js"></script>
   </head>
 
   <body>
@@ -43,7 +45,7 @@
 		          </form>
 	          
 		          <ul class="btns_login">
-			          <li><input type="button" value="회원가입" class="a"></li>
+			          <li><input type="button" value="회원가입" class="a" onclick="go_agree()"></li>
 			          <li><input type="button" value="아이디 찾기" class="a"></li>
 			          <li><input type="button" value="비밀번호 찾기" class="a1"></li>
 		          </ul>

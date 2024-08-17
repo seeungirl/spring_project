@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -104,6 +105,7 @@ public class adm_controller extends common_md{
 				this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
 			}
 		}catch(Exception e) {
+			e.printStackTrace();
 			this.golocation(res,"잘못된 접근입니다.","./admin_main.do");
 		}
 	}
@@ -248,8 +250,8 @@ public class adm_controller extends common_md{
 					this.golocation(res,"데이터 오류로 등록에 실패했습니다. 다시 시도해주세요.","./admin_siteinfo.do");
 				}
 			}
-		}catch(IllegalStateException e2) {
-			
+		}catch(DuplicateKeyException e2) {
+			this.gohistory(res,"이미 존재하는 홈페이지 제목입니다.");
 		}catch(Exception e) {
 			System.out.println(e);
 			this.golocation(res,"데이터 오류로 저장에 실패했습니다. 다시 시도해주세요.","./admin_siteinfo.do");
@@ -273,7 +275,8 @@ public class adm_controller extends common_md{
 				m.addAttribute("term",result);
 			}
 		}catch(Exception e) {
-			this.golocation(res,"잘못된 접근입니다.","./shop_member_list.do");
+			e.printStackTrace();
+//			this.golocation(res,"잘못된 접근입니다.","./shop_member_list.do");
 		}
 	
 		return "/shop_member_list";

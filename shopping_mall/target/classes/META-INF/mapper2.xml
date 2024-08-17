@@ -242,4 +242,9 @@
 	    update term_shop set term_use=#{term_use},term_pinfo=#{term_pinfo},t_indate=now() where adm_id=#{adm_id}
 	</update>
 	
+	
+	<!-- shop -->
+	<select id="select_shopname_all" resultType="mjsdao">
+		select * from mall_join_setting;
+	</select>
 </mapper>

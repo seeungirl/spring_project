@@ -73,6 +73,9 @@ ul, ol, dt, dl {
     font-family: "Helvetica";
   }
   
+  body#index main .sub_view{min-height :calc(100vh - 314px);}
+  body#index main .sub_view p { padding : 30px 60px;}
+  
   /* navbar */
   .navbar{
     height: 60px;

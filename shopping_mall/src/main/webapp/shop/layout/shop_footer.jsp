@@ -3,20 +3,20 @@
 <footer>
     <div class="footer">
       <a href="http://facebook.com">
-        <img src="images/facebook.png"height="20">
+        <img src="/shop/images/facebook.png"height="20">
       </a>
       <a href="http://instagram.com">
-        <img src="images/instagram.png"height="20">
+        <img src="/shop/images/instagram.png"height="20">
       </a>
       <a href="http://twitter.com">
-        <img src="images/twitter.png"height="20">
+        <img src="/shop/images/twitter.png"height="20">
       </a>
     </div>
     <section class="foot_section"></section>
     <aside class="aside_footer">
         <div class="div_footer">
         <ul>
-        <li><img src="./images/foot_logo.png"></li>
+        <li><img src="/shop/images/foot_logo.png"></li>
         <li>
 회사명 :  
 대표자 : 

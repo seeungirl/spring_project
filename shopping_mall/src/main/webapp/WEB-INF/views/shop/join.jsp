@@ -6,10 +6,10 @@
   <head>
     <title>Shop Bag</title>
     <meta charset="utf-8" />
-    <link href="./css/index.css" rel="stylesheet" />
-    <link href="./css/subpage.css" rel="stylesheet" />
-    <link href="./css/agree.css?v=1" rel="stylesheet" />
-    <link href="./css/join.css?v=1" rel="stylesheet" />
+    <link href="/shop/css/index.css" rel="stylesheet" />
+    <link href="/shop/css/subpage.css" rel="stylesheet" />
+    <link href="/shop/css/agree.css?v=1" rel="stylesheet" />
+    <link href="/shop/css/join.css?v=1" rel="stylesheet" />
   </head>
 
   <body>
@@ -21,6 +21,10 @@
    
     <div class="joinview">     
     <form>
+    	<input type="hidden" name="adm_id" value="${adm_id}">
+    
+    	<input type="hidden" name="m_agree_mail" value="${agree.m_agree_mail}">
+    	<input type="hidden" name="m_agree_sms" value="${agree.m_agree_sms}">
 	    <h3>회원가입</h3>
 		<span class="join_info">
 		    <ol>
