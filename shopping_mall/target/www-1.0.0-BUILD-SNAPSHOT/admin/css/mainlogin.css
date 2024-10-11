@@ -1,0 +1,246 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100;300;400;700&display=swap');
+/* font-family: 'Noto Sans KR', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@400;700;800&family=Noto+Sans+KR:wght@100;300;400;700&display=swap');
+/* font-family: 'Nanum Gothic', sans-serif; */
+@import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic+Coding:wght@400;700&family=Noto+Sans+KR:wght@100;300;400;700&display=swap');
+/* font-family: 'Nanum Gothic Coding', monospace; */
+* {
+    box-sizing: border-box;
+}
+.bodycss{
+    height: 100vh;
+    position: relative;
+}
+.logo_sm { 
+    width: 30px; 
+    object-fit: cover;
+}
+.admin_title { 
+    width: 100%;
+    height:50px;
+    position: absolute;
+    top: 50%;
+    margin-top: -200px;
+}
+.admin_title > p {
+    width:600px;
+    height: inherit;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 700;
+    padding-top:20px;
+}
+.admin_bgcolor { 
+    width: 100%;
+    height:300px;
+    background-color: rgb(22, 22, 22);
+    position: absolute;
+    top:50%;
+    margin-top: -150px;
+    padding-top: 10px;
+}
+.admin_login {
+    width: 600px;
+    height: 280px;
+    border:1px solid #ccc;
+    margin: 0 auto;
+    background-color: rgb(61, 60, 60);
+}
+.admin_login > span:nth-of-type(1) {
+    width:inherit;
+    height: 200px;
+    padding: 49px;
+}
+.left_div { 
+    float: left;
+    width: 330px;
+    height: 100px;
+}
+.left_div > ul {
+    width: inherit;
+    height: auto;
+}
+.left_div > ul > li {
+    width: inherit;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+}    
+.input_text1 { 
+    width: 250px;
+    height: 30px;
+    border:1px solid #ccc;
+    text-indent: 5px;
+}
+.right_div { 
+    float: left;
+    width: 170px;
+    height: 100px;
+    text-align: center;
+    line-height: 100px;
+}
+.admin_login > span:nth-of-type(2) {
+    width:inherit;
+    height: 80px;
+    padding: 20px;
+}
+.admin_info {
+    width: 550px;
+    height: 40px;
+}
+.admin_info > li { 
+    font-size: 12px;
+    color: #fff;
+    float: left;
+    width: 50%;
+    height: inherit;
+    line-height: 40px;
+    cursor: pointer;
+}
+.admin_info > li:nth-of-type(1) {
+    text-indent: 10px;
+}
+.admin_info > li:nth-of-type(2) {
+    padding-right: 10px;
+    text-align: right;
+}
+.admin_copy_login {
+    width: 100%;
+    height: 30px;
+    background-color: black;
+    position: absolute;
+    bottom: 0;
+}
+.admin_copy { 
+    width: 100%;
+    height: 30px;
+    background-color: black;
+    position: relative;
+    margin-top: 200px;
+}
+.admin_copy_login > div, .admin_copy > div { 
+    color: #ccc;
+    margin: 0 auto;
+    text-align: center;
+    height: 30px;
+    line-height: 30px;
+}
+
+.btn_submit { 
+    width: 150px;
+    height: 80px;
+    border: 0;
+    background-color: rgb(115, 79, 79);
+    font-size: 15px;
+    font-weight: 400;
+    color: #fff;
+    cursor: pointer;
+}
+
+.alert_msg { 
+    clear: both;
+    position: relative;
+    display: block;
+    width: 500px;
+    height: 30px;
+    color: #ccc;
+    text-align: center;
+    line-height: 30px;
+}
+
+
+/* 신규관리자 등록 */
+.font_color1 { 
+    color: #fff;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 13px;
+    transform: skew(-0.001deg);
+    font-weight: 700;
+    line-height: 40px;
+}
+.admin_title_add { 
+    width: 100%;
+    height:50px;
+    position: relative;
+    top:50px;
+}
+.admin_title_add > p {
+    width:600px;
+    height: inherit;
+    margin: 0 auto;
+    text-align: left;
+    font-size: 17px;
+    font-weight: 700;
+    padding-top:20px;
+}
+.admin_bgcolor_add { 
+    width: 100%;
+    height:500px;
+    background-color: rgb(79, 78, 78);
+    position: relative;
+    top:50px;
+    padding-top: 10px;
+}
+.admin_login_add {
+    width: 600px;
+    height: 480px;
+    border:1px solid #ccc;
+    margin: 0 auto;
+    background-color: rgb(61, 60, 60);
+    padding: 20px;
+}
+.admin_login_add > ul {
+    width: 560px;
+    height: auto;
+}
+.admin_login_add > ul > li {
+    width:inherit;
+    height: 40px;
+    line-height: 40px;
+}
+.add_input1 { 
+    width: 220px;
+    height: 30px;
+    border: 1px solid #ccc;
+    text-indent: 5px;
+    margin-right: 5px;
+}
+.emails { 
+    width: 550px;
+}
+.hp1 {
+    width: 80px;
+}
+.hp2{
+    margin-left: 5px;
+    width: 100px;
+}
+.add_select1 { 
+    width: 160px;
+    height: 31px;
+    border: 1px solid #eee;
+    margin-right: 5px;
+}
+.btn_button {
+    width: 100px;
+    height: 31px;
+    border: 1px solid #eee;
+    background-color: black;
+    color: #fff;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-size: 11px;
+    transform: skew(-0.001deg);
+ }
+ .admin_addbtn { 
+    width: 560px; height: 40px; 
+    line-height: 40px;
+    text-align: center;
+}
+ .btncolor1 { 
+    background-color: rgb(67, 89, 113);
+    margin-right: 5px;
+ }
+ .btncolor2 { 
+    background-color: rgb(29, 29, 25);
+ }

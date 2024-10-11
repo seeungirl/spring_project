@@ -1,0 +1,72 @@
+@charset "utf-8";
+.joinview{
+        width: 1000px;
+        height: 700px;
+        display: block;
+        margin: 0 auto;
+        position: relative;
+}
+/* 회원가입 약관동의 */
+.join_agreement_wrap .member_tit{overflow:hidden; border-bottom:1px solid #999999;}
+.join_agreement_wrap .member_tit h2{float:left; font-size:28px; color:#222222;}
+.join_agreement_wrap .member_tit ol{float:right; line-height: 62px;}
+.join_agreement_wrap .member_tit ol li{float:left; font-size:14px; color:#d1d1d1;}
+.join_agreement_wrap .member_tit .page_on{color:#ab3e55;}
+.join_agreement_wrap .member_tit li span{font-size:16px; font-weight:bold;}
+.join_agreement_wrap .member_tit li span > img{padding:0 14px; vertical-align: -1px;}
+.join_agreement_wrap .member_cont{width:743px; margin:0 auto; border:none;}
+.join_agreement_wrap .member_cont h3{padding:0 0 17px 0; font-weight:normal; font-size:18px; color:#222222;}
+
+.join_agreement_wrap .join_agreement_cont{padding:30px 0 0 0; border-top:1px solid #999999;}
+.join_agreement_cont .form_element em{font-weight:bold;}
+.join_agreement_cont .form_element span{color:#717171; font-size:11px;}
+.join_agreement_cont .form_element strong{color:#ab3e55;}
+.join_agreement_cont .form_element strong.choice{color:#ab3e55;}
+.join_agreement_cont .form_element span > a{padding:0 10px 0 5px; color:#ab3e55; font-size:12px; text-decoration:underline;}
+.join_agreement_cont .form_element span > a:hover {text-decoration:underline;}
+.join_agreement_cont .join_agreement_box{margin:0 0 30px 0;}
+.join_agreement_cont .agreement_choice_box{padding:10px 0 0 0;}
+.join_agreement_cont .agreement_choice_box table{width:100%;}
+.join_agreement_cont .agreement_choice_box table th{padding:20px 0; border-top:1px solid #999999; border-left:1px solid #dcdcdc; background:#fbfbfb}
+.join_agreement_cont .agreement_choice_box table th:first-child,
+.join_agreement_cont .agreement_choice_box table td:first-child{border-left:none;}
+.join_agreement_cont .agreement_choice_box table td{padding:20px 0 20px 10px; border-top:1px solid #dcdcdc; border-left:1px solid #dcdcdc; border-bottom:1px solid #dcdcdc;}
+.join_agreement_cont .agreement_choice_box .agreement_scroll{overflow-y:scroll; height: 92px;}
+.join_agreement_cont .important_check_box {text-align:center;}
+.join_agreement_cont .important_check_box .important_check{display:inline-block; margin:0 auto; padding:0 0 0 18px; color:#ab3e55; }
+.join_agreement_cont .agreement_box{overflow-x: hidden; overflow-y: auto; height: 89px; margin: 10px 0 0; padding: 20px; border: 1px solid #e6e6e6; border-top: 1px solid #999999; line-height: 18px;}
+
+.join_agreement_wrap .join_certify_box{margin:30px 0 0 0;}
+.join_agreement_wrap .join_certify_box h3{font-weight:bold;}
+.join_agreement_wrap .join_certify_list{padding:50px 0; border-top:1px solid #999999; border-left:1px solid #e6e6e6; border-right:1px solid #e6e6e6; border-bottom:1px solid #e6e6e6;}
+.join_agreement_wrap .join_certify_list .form_element{display:block;}
+.join_agreement_wrap .join_certify_list ul{text-align:center;}
+.join_agreement_wrap .join_certify_list li{display:inline-block; padding:0 13px 0 13px;}
+
+.join_agreement_wrap .btn_member_sec ul{overflow:hidden; margin:20px 0 0 0; text-align:center; font-size:0;}
+.join_agreement_wrap .btn_member_sec li{display:inline-block;}
+.join_agreement_wrap .btn_member_sec li button{width:150px; height:42px; border:1px solid #6b6b6b; background:#6b6b6b; color:#fff; font-weight:bold; font-size:13px; cursor:pointer;}
+.join_agreement_wrap .btn_member_sec li button:hover{border:1px solid #626262; color:#fff; background:#626262;}
+
+.agreement_choice_box .form_element{text-align:center;}
+.agreement_choice_box .form_element input{left:26px;}
+
+/* 가입방법 선택 */
+.member_cont .member_login_box .member_login_shop{margin:0 0 20px 0; padding:0 0 20px 0; border-bottom:1px solid #dcdcdc;}
+.member_guide_txt{text-align:center; padding:18px 0 20px 0; color:#666666;}
+.member_guide_txt a:hover{text-decoration:underline;}
+
+.info_again{padding:5px 0 0 0; text-align:left; color:#929292;}
+.info_again a{color:#ab3e55; text-decoration:underline;}
+
+.btn_center_box { width: 100%; height: 100px; line-height: 100px; text-align: center;}
+.btn_join {    
+    width: 175px;
+    height: 40px;
+    color: black;
+    background-color: #ccc;
+    border: 0;
+    box-sizing: border-box;
+    line-height: 40px;
+}
+

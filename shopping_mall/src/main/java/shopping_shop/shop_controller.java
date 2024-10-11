@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import shopping_admin.adminlist_dao;
 import shopping_admin.adminlist_md;
 import shopping_admin.common_md;
 import shopping_admin.mj_set_dao;
@@ -44,6 +45,7 @@ public class shop_controller extends shopping_admin.common_md{
 	@GetMapping("/{shopname}/index.do")
 	public String index(Model m,HttpServletRequest req,HttpServletResponse res) {
 		this.shopname = this.setShopSession(req, res);
+		System.out.println(this.shopname);
 		m.addAttribute("shopname",this.shopname);
 		
 		return "/shop/index";
@@ -108,5 +110,28 @@ public class shop_controller extends shopping_admin.common_md{
 		}
 		
 		return "/shop/join";
+	}
+	
+	@GetMapping("/{shopname}/shop_idck.do")
+	public String shop_idck(
+			HttpServletResponse res,
+			HttpServletRequest req,
+			@ModelAttribute("memberdao") member_dao dao) 
+		throws Exception {
+		
+		res.setContentType("text/html; charset=UTF-8");
+		req.setCharacterEncoding("UTF-8");
+		int callback = 0;
+		try {
+			this.pw = res.getWriter();
+			callback = sm.select_ck_id(dao);
+		}catch(Exception e) {
+			callback = -1;
+		}finally {
+			this.pw.print(callback);
+			this.pw.close();
+		}
+		
+		return null;
 	}
 }

@@ -247,4 +247,8 @@
 	<select id="select_shopname_all" resultType="mjsdao">
 		select * from mall_join_setting;
 	</select>
+	
+	<select id="select_ck_id" parameterType="Map" resultType="int">
+    	select count(*) as ctn from member_list where adm_id=#{adm_id} and m_id=#{m_id};
+	</select>
 </mapper>
