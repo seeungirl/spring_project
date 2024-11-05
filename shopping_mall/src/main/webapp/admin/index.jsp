@@ -7,9 +7,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>관리자 페이지</title>
-    <link rel="stylesheet" type="text/css" href="./css/basic.css?v=1">
-    <link rel="stylesheet" type="text/css" href="./css/main.css?v=2">
-    <link rel="stylesheet" type="text/css" href="./css/mainlogin.css?v=3">
+    <link rel="stylesheet" type="text/css" href="./css/basic.css?v=10">
+    <link rel="stylesheet" type="text/css" href="./css/main.css?v=20">
+    <link rel="stylesheet" type="text/css" href="./css/mainlogin.css?v=30">
     <link rel="icon" href="./img/logo.png" sizes="128x128">
     <link rel="icon" href="./img/logo.png" sizes="64x64">
     <link rel="icon" href="./img/logo.png" sizes="32x32">

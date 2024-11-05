@@ -27,6 +27,11 @@ public class adm_controller extends common_md{
 	@Resource(name = "admlist_md") 
 	private adminlist_md al_m;
 	
+    @GetMapping("/")
+    public String home() {
+        return "index"; // templates/index.html을 반환합니다.
+    }
+	
 	/*--- login,join ---*/
 	@PostMapping("/admin/adminjoin_ok.do")
 	public void adminjoin_ok( HttpServletResponse res, HttpServletRequest req, @ModelAttribute("admlist") adminlist_dao dao) throws Exception{
